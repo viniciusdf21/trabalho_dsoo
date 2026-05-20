@@ -1,7 +1,8 @@
 from pagamento import Pagamento
 
-class Cartao(Pagamento):
-    def __init__(self, data_pag, atendimento: Atendimento, paciente: Paciente, valor_pago, numero, bandeira):
-        super().__init__(data_pag, atendimento, paciente, valor_pago)
+
+class CartaoCredito(Pagamento):
+    def __init__(self, data_pagamento, atendimento, paciente: Paciente, valor_pago, numero, bandeira):
+        super().__init__(data_pagamento, atendimento, paciente, valor_pago)
         self.__numero = numero
         self.__bandeira = bandeira
