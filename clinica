@@ -5,3 +5,4 @@ class Clinica():
         self.__descricao = descricao
         self.__horario_abertura = horario_abertura
         self.__horario_fechamento = horario_fechamento
+        self.__atendimentos = []
