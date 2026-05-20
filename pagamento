@@ -1,1 +1,6 @@
-
+class Pagamento():
+    def __init__(self, data_pag, atendimento: Atendimento, paciente: Paciente, valor_pago):
+        self.__data = data_pag
+        self.__atendimento = atendimento
+        self.__paciente = paciente
+        self.__valor_pago = valor_pago
