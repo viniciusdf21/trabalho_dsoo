@@ -1,1 +1,7 @@
-
+class Clinica():
+    def __init__(self, nome, loc, descricao, horario_abertura, horario_fechamento):
+        self.__nome = nome
+        self.__loc = loc
+        self.__descricao = descricao
+        self.__horario_abertura = horario_abertura
+        self.__horario_fechamento = horario_fechamento
