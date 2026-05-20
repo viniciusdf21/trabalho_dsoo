@@ -1,1 +1,6 @@
+from pagamento import Pagamento
 
+class Pix(Pagamento):
+    def __init__(self, data_pag, atendimento: Atendimento, paciente: Paciente, valor_pago, cpf_pagante):
+        super().__init__(data_pag, atendimento, paciente, valor_pago)
+        self.__cpf_pagante = cpf_pagante
