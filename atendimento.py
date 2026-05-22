@@ -1,5 +1,5 @@
 class Atendimento():
-    def __init__(self, clinica, paciente, profissional, data, horario_inicio, horario_fim , tipo_atendimento, valor, lista_procendimentos, lista_pagamentos):
+    def __init__(self, clinica, paciente, profissional, data, horario_inicio, horario_fim , tipo_atendimento, valor):
         self.__clinica = clinica
         self.__paciente = paciente
         self.__profissional = profissional
@@ -8,5 +8,5 @@ class Atendimento():
         self.__horario_fim = horario_fim
         self.__tipo_atendimento = tipo_atendimento
         self.__valor = valor
-        self.__lista_procendimentos = lista_procendimentos
-        self.__lista_pagamentos = lista_pagamentos
+        self.__lista_procendimentos = []
+        self.__lista_pagamentos = []
