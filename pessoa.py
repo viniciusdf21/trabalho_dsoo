@@ -1,4 +1,4 @@
-from ABC import ABC
+from abc import ABC
 
 
 class Pessoa(ABC):
