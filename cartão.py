@@ -2,7 +2,7 @@ from pagamento import Pagamento
 
 
 class CartaoCredito(Pagamento):
-    def __init__(self, data_pagamento, atendimento, paciente: Paciente, valor_pago, numero, bandeira):
+    def __init__(self, data_pagamento, atendimento, paciente, valor_pago, numero, bandeira):
         super().__init__(data_pagamento, atendimento, paciente, valor_pago)
         self.__numero = numero
         self.__bandeira = bandeira
@@ -25,8 +25,11 @@ class CartaoCredito(Pagamento):
 
     def validar_cartao(self):
         numero = self.__numero_cartao
-
         if len(numero) < 13 or not numero.isdigit():
             raise ValueError("Número do cartão inválido")
-
         return True
+    
+    def validar_pagamento(self):
+        if self.valor_pago <= 0:
+            raise ValueError("O valor pago deve ser maior que zero")
+        return self.validar_cartao()
