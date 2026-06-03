@@ -1,3 +1,8 @@
+from controladorPaciente import ControladorPaciente
+from controladorProfissional import ControladorProfissional
+from controladorClinica import ControladorClinica
+from controladorTipoAten import ControladorTipoAtendimentos
+
 class ControladorPrincipal:
 
     def __init__(self):
