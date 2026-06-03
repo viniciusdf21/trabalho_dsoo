@@ -19,4 +19,4 @@ class Pix(Pagamento):
         if len(cpf) == 11:
             return True
         else:
-            return False
+            raise ValueError("CPF deve possuir 11 dígitos")
