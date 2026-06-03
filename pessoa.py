@@ -31,9 +31,9 @@ class Pessoa(ABC):
     def celular(self, novo_celular):
         self.__celular = novo_celular
         
-    def validar_cpf():
-        # implementacao
-        pass
+    def validar_cpf(self, cpf):
+        cpf = str(cpf)
+        return cpf.isdigit() and len(cpf) == 11
         
     @abstractmethod
     def exibir_dados():
