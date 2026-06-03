@@ -28,9 +28,9 @@ class Profissional(Pessoa):
 
     def exibir_dados(self):
         return (
-            f"Nome: {self.__nome}\n"
-            f"CPF: {self.__cpf}\n"
-            f"Celular: {self.__celular}\n"
-            f"Especialidade: {self.__especialidade}\n"
-            f"Registro: {self.__registro}"
+            f"Nome: {self.nome}\n"
+            f"CPF: {self.cpf}\n"
+            f"Celular: {self.celular}\n"
+            f"Especialidade: {self.especialidade}\n"
+            f"Registro: {self.registro}"
         )
