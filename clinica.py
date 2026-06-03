@@ -59,9 +59,9 @@ class Clinica():
         
     def exibir_dados(self):
         return (
-            f"Nome: {self.__nome}\n"
-            f"Localização: {self.__loc}\n"
-            f"Descrição: {self.__descricao}\n"
+            f"Nome: {self.nome}\n"
+            f"Localização: {self.loc}\n"
+            f"Descrição: {self.descricao}\n"
             f"Horário de abertura: {self.horario_abertura}\n"
             f"Horário de fechamento: {self.horario_fechamento}"
         )

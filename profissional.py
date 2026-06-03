@@ -1,4 +1,4 @@
-from pesssoa import Pessoa
+from pessoa import Pessoa
 
 
 class Profissional(Pessoa):
@@ -25,3 +25,12 @@ class Profissional(Pessoa):
         
     def exibir_especialidade(self):
         return f"Especialidade: {self.__especialidade}"
+
+    def exibir_dados(self):
+        return (
+            f"Nome: {self.nome}\n"
+            f"CPF: {self.cpf}\n"
+            f"Celular: {self.celular}\n"
+            f"Especialidade: {self.especialidade}\n"
+            f"Registro: {self.registro}"
+        )

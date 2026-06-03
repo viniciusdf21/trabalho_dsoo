@@ -27,3 +27,10 @@ class TipoAtendimento():
     @valor_base.setter
     def valor_base(self, novo_valor_base):
         self.__valor_base = novo_valor_base
+
+    def exibir_dados(self):
+        return (
+            f"Nome do atendimento: {self.nome}\n"
+            f"Descrição: {self.descricao}\n"
+            f"Valor base: R$ {self.valor_base:.2f}"
+        )

@@ -28,3 +28,13 @@ class Paciente(Pessoa):
             idade -= 1
             
         return idade
+
+    def exibir_dados(self):
+        return (
+            f"Nome: {self.nome}\n"
+            f"CPF: {self.cpf}\n"
+            f"Celular: {self.celular}\n"
+            f"Data de nascimento: {self.data_nascimento}\n"
+            f"Idade: {self.verificar_idade()} anos"
+        )
+        
