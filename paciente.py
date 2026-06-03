@@ -31,9 +31,9 @@ class Paciente(Pessoa):
 
     def exibir_dados(self):
         return (
-            f"Nome: {self.__nome}\n"
-            f"CPF: {self.__cpf}\n"
-            f"Celular: {self.__celular}\n"
+            f"Nome: {self.nome}\n"
+            f"CPF: {self.cpf}\n"
+            f"Celular: {self.celular}\n"
             f"Data de nascimento: {self.data_nascimento}\n"
             f"Idade: {self.verificar_idade()} anos"
         )
