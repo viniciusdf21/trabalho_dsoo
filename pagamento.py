@@ -39,3 +39,13 @@ class Pagamento(ABC):
     @valor_pago.setter
     def valor_pago(self, valor_pago):
         self.__valor_pago = valor_pago
+
+
+    def validar_pagamento(self):
+        if self.__valor_pago <= 0:
+            raise ValueError("O valor pago deve ser maior que zero")
+
+        return True
+
+    def registrar_pagamento(self):
+        self.validar_pagamento()

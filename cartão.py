@@ -22,3 +22,11 @@ class CartaoCredito(Pagamento):
     @bandeira.setter
     def bandeira(self, bandeira):
         self.__bandeira = bandeira
+
+    def validar_cartao(self):
+        numero = self.__numero_cartao
+
+        if len(numero) < 13 or not numero.isdigit():
+            raise ValueError("Número do cartão inválido")
+
+        return True
