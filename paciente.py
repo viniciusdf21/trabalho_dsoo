@@ -3,8 +3,8 @@ from datetime import date
 
 
 class Paciente(Pessoa):
-    def __init__(self, nome, cpf, telefone, data_nascimento):
-        super().__init__(nome, cpf, telefone)
+    def __init__(self, nome, cpf, celular, data_nascimento):
+        super().__init__(nome, cpf, celular)
         self.data_nascimento = data_nascimento
 
     @property
