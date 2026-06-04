@@ -36,3 +36,11 @@ class Procedimento:
     @profissional.setter
     def profissional(self, profissional):
         self.__profissional = profissional
+    
+    def exibir_dados(self):
+    return (
+        f"Nome do procedimento: {self.__nome}\n"
+        f"Descrição: {self.__descricao}\n"
+        f"Custo: R$ {self.__custo:.2f}\n"
+        f"Profissional: {self.__profissional.nome}"
+    )
