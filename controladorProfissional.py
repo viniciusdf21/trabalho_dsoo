@@ -11,7 +11,7 @@ class ControladorProfissional(Profissional):
         especialidade = input("Especialidade: ")
         registro = input("Registro: ")
 
-        profissional = Profissional(nome, cpf, telefone, especialidade, registro)
+        profissional = Profissional(nome, cpf, celular, especialidade, registro)
         self.__profissionais.append(profissional)
 
     def listar_profissionais(self):
