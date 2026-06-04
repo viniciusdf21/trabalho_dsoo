@@ -9,7 +9,7 @@ class ControladorPaciente(Paciente):
     def cadastrar_paciente(self):
         nome = input("Nome: ")
         cpf = input("CPF: ")
-        telefone = input("Celular: ")
+        celular = input("Celular: ")
 
         ano = int(input("Ano de nascimento: "))
         mes = int(input("Mês de nascimento: "))
