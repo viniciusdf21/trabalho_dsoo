@@ -15,7 +15,7 @@ class Paciente(Pessoa):
     def data_nascimento(self, nova_data):
         if not isinstance(nova_data, date):
             raise ValueError("A data de nascimento deve ser do tipo date.")
-        self.data_nascimento = nova_data
+        self.__data_nascimento = nova_data
 
     def verificar_idade(self):
         hoje = date.today()
