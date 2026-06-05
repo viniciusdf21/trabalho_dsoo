@@ -41,9 +41,15 @@ class Pagamento(ABC):
         self.__valor_pago = valor_pago
 
 
+    def validar_data_pagamento(self):
+        if self.__data > self.__atendimento.data:
+            raise ValueError("O pagamento deve ser realizado até a data do atendimento")
+        return True
+    
     @abstractmethod
     def validar_pagamento(self):
         pass
 
     def registrar_pagamento(self):
+        self.validar_data_pagamento()
         self.validar_pagamento()
