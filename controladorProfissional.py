@@ -35,12 +35,29 @@ class ControladorProfissional:
 
         print("Profissional não encontrado.")
 
+    def alterar_profissional(self):
+        cpf = input("CPF do profissional: ")
+
+        for profissional in self.__profissionais:
+            if profissional.cpf == cpf:
+
+                profissional.nome = input("Novo nome: ")
+                profissional.celular = input("Novo celular: ")
+                profissional.especialidade = input("Nova especialidade: ")
+                profissional.registro = input("Novo registro: ")
+
+                print("Profissional alterado com sucesso!")
+                return
+
+        print("Profissional não encontrado.")
+
     def abrir_menu(self):
         while True:
             print("\n=== PROFISSIONAIS ===")
             print("1 - Cadastrar")
             print("2 - Listar")
             print("3 - Excluir")
+            print("4 - Alterar")
             print("0 - Voltar")
 
             opcao = input("Opção: ")
@@ -53,6 +70,9 @@ class ControladorProfissional:
 
             elif opcao == "3":
                 self.excluir_profissional()
+
+            elif opcao == "4":
+                self.alterar_profissional()
 
             elif opcao == "0":
                 break
