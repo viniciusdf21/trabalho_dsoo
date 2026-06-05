@@ -17,8 +17,13 @@ class ControladorPaciente(Paciente):
 
         data_nascimento = date(ano, mes, dia)
 
-        paciente = Paciente(nome, cpf, celular, data_nascimento)
-        self.__pacientes.append(paciente)
+        try:
+            paciente = Paciente(nome, cpf, celular, data_nascimento)
+            self.__pacientes.append(paciente)
+            print("Paciente cadastrado com sucesso!")
+
+        except ValueError as erro:
+            print(erro)
 
     def listar_pacientes(self):
         for paciente in self.__pacientes:
