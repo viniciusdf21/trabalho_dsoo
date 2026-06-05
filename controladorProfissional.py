@@ -11,8 +11,13 @@ class ControladorProfissional(Profissional):
         especialidade = input("Especialidade: ")
         registro = input("Registro: ")
 
-        profissional = Profissional(nome, cpf, celular, especialidade, registro)
-        self.__profissionais.append(profissional)
+        try: 
+            profissional = Profissional(nome, cpf, celular, especialidade, registro)
+            self.__profissionais.append(profissional)
+            print('Profissional cadastrado com sucesso!')
+
+        except ValueError as erro:
+            print(erro)
 
     def listar_profissionais(self):
         for profissional in self.__profissionais:
