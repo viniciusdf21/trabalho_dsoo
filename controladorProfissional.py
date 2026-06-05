@@ -51,6 +51,29 @@ class ControladorProfissional:
 
         print("Profissional não encontrado.")
 
+    def escolher_profissional(self):
+        if len(self.__profissionais) == 0:
+            print("Nenhum profissional cadastrado.")
+            return None
+
+        print("\n=== ESCOLHER PROFISSIONAL ===")
+
+        for i, profissional in enumerate(self.__profissionais):
+            print(f"{i + 1} - {profissional.nome}")
+
+        try:
+            opcao = int(input("Escolha o profissional: "))
+
+            if opcao < 1 or opcao > len(self.__profissionais):
+                print("Opção inválida.")
+                return None
+
+            return self.__profissionais[opcao - 1]
+
+        except ValueError:
+            print("Digite um número válido.")
+            return None
+
     def abrir_menu(self):
         while True:
             print("\n=== PROFISSIONAIS ===")
