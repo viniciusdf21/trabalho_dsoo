@@ -40,11 +40,39 @@ class ControladorClinica:
             print("\n")
             print(clinica.exibir_dados())
 
+    def excluir_clinica(self):
+        nome = input("Nome da clínica que deseja excluir: ")
+
+        for clinica in self.__clinicas:
+            if clinica.nome == nome:
+                self.__clinicas.remove(clinica)
+                print("Clínica removida com sucesso!")
+                return
+
+        print("Clínica não encontrada.")
+    
+    def alterar_clinica(self):
+        nome = input("Nome da clínica que deseja alterar: ")
+
+        for clinica in self.__clinicas:
+            if clinica.nome == nome:
+
+                clinica.nome = input("Novo nome: ")
+                clinica.loc = input("Nova localização: ")
+                clinica.descricao = input("Nova descrição: ")
+
+                print("Clínica alterada com sucesso!")
+                return
+
+        print("Clínica não encontrada.")
+
     def abrir_menu(self):
         while True:
             print("\n=== CLÍNICA ===")
             print("1 - Cadastrar")
-            print("2 - Exibir")
+            print("2 - Listar")
+            print("3 - Excluir")
+            print("4 - Alterar")
             print("0 - Voltar")
 
             opcao = input("Opção: ")
@@ -54,6 +82,12 @@ class ControladorClinica:
 
             elif opcao == "2":
                 self.exibir_clinica()
+
+            elif opcao == "3":
+                self.excluir_clinica()
+
+            elif opcao == "4":
+                self.alterar_clinica()
 
             elif opcao == "0":
                 break
