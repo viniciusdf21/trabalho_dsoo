@@ -2,6 +2,7 @@ from controladorPaciente import ControladorPaciente
 from controladorProfissional import ControladorProfissional
 from controladorClinica import ControladorClinica
 from controladorTipoAten import ControladorTipoAtendimentos
+from controladorAtendimento import ControladorAtendimento
 
 class ControladorPrincipal:
 
@@ -15,6 +16,7 @@ class ControladorPrincipal:
             print("2 - Profissionais")
             print("3 - Clínica")
             print("4 - Tipos de atendimentos")
+            print("5 - Atendimentos") 
             print("0 - Sair")
 
             opcao = input("Escolha uma opção: ")
@@ -30,6 +32,9 @@ class ControladorPrincipal:
 
             elif opcao == "4":
                 self.__controladorTipoAtendimentos.abrir_menu()
+
+            elif opcao == "5":
+                self.__controladorAtendimento.abrir_menu()
 
             elif opcao == "0":
                 break
