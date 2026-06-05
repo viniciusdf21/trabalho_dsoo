@@ -7,7 +7,7 @@ class ControladorProfissional(Profissional):
     def cadastrar_profissional(self):
         nome = input("Nome: ")
         cpf = input("CPF: ")
-        telefone = input("Celular: ")
+        celular = input("Celular: ")
         especialidade = input("Especialidade: ")
         registro = input("Registro: ")
 
