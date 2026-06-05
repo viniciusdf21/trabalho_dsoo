@@ -7,7 +7,11 @@ from controladorAtendimento import ControladorAtendimento
 class ControladorPrincipal:
 
     def __init__(self):
-        pass
+        self.__controladorPaciente = ControladorPaciente()
+        self.__controladorProfissional = ControladorProfissional()
+        self.__controladorClinica = ControladorClinica()
+        self.__controladorTipoAtendimentos = ControladorTipoAtendimentos()
+        self.__controladorAtendimento = ControladorAtendimento()
 
     def iniciar(self):
         while True:
@@ -37,6 +41,7 @@ class ControladorPrincipal:
                 self.__controladorAtendimento.abrir_menu()
 
             elif opcao == "0":
+                print("Sistema encerrado.") 
                 break
 
             else:
