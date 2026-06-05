@@ -2,7 +2,7 @@ from paciente import Paciente
 from datetime import date
 
 
-class ControladorPaciente(Paciente):
+class ControladorPaciente:
     def __init__(self):
         self.__pacientes = []
 
