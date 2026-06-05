@@ -1,6 +1,6 @@
 from profissional import Profissional
 
-class ControladorProfissional(Profissional):
+class ControladorProfissional:
     def __init__(self):
         self.__profissionais = []
 
@@ -24,11 +24,23 @@ class ControladorProfissional(Profissional):
             print("\n")
             print(profissional.exibir_dados())
 
+    def excluir_profissional(self):
+        cpf = input("CPF do profissional: ")
+
+        for profissional in self.__profissionais:
+            if profissional.cpf == cpf:
+                self.__profissionais.remove(profissional)
+                print("Profissional removido com sucesso.")
+                return
+
+        print("Profissional não encontrado.")
+
     def abrir_menu(self):
         while True:
             print("\n=== PROFISSIONAIS ===")
             print("1 - Cadastrar")
             print("2 - Listar")
+            print("3 - Excluir")
             print("0 - Voltar")
 
             opcao = input("Opção: ")
@@ -38,6 +50,9 @@ class ControladorProfissional(Profissional):
 
             elif opcao == "2":
                 self.listar_profissionais()
+
+            elif opcao == "3":
+                self.excluir_profissional()
 
             elif opcao == "0":
                 break
