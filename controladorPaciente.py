@@ -46,12 +46,27 @@ class ControladorPaciente:
                 return
         print("Paciente não encontrado.")
 
+    def alterar_paciente(self):
+        cpf = input("CPF do paciente: ")
+
+        for paciente in self.__pacientes:
+            if paciente.cpf == cpf:
+
+                paciente.nome = input("Novo nome: ")
+                paciente.celular = input("Novo celular: ")
+
+                print("Paciente alterado com sucesso!")
+                return
+
+        print("Paciente não encontrado.")
+
     def abrir_menu(self):
         while True:
             print("\n=== PACIENTES ===")
             print("1 - Cadastrar")
             print("2 - Listar")
             print("3 - Excluir")
+            print("4 - Alterar")
             print("0 - Voltar")
 
             opcao = input("Opção: ")
@@ -64,6 +79,9 @@ class ControladorPaciente:
 
             elif opcao == "3":
                 self.excluir_paciente()
+
+            elif opcao == "4":
+                self.alterar_paciente()
 
             elif opcao == "0":
                 break
