@@ -4,30 +4,41 @@ from datetime import time
 
 class ControladorClinica:
     def __init__(self):
-        self.__clinica = []
+        self.__clinicas = []
 
     def cadastrar_clinica(self):
         nome = input("Nome: ")
         localizacao = input("Localização: ")
         descricao = input("Descrição: ")
 
-        abertura = time(
-            int(input("Hora abertura: ")),
-            int(input("Minuto abertura: "))
-        )
+        while True:
+            try:
+                abertura = time(
+                    int(input("Hora abertura: ")),
+                    int(input("Minuto abertura: "))
+                )
+        
+                fechamento = time(
+                    int(input("Hora fechamento: ")),
+                    int(input("Minuto fechamento: "))
+                )
 
-        fechamento = time(
-            int(input("Hora fechamento: ")),
-            int(input("Minuto fechamento: "))
-        )
-
-        self.__clinica = Clinica(nome, loc, descricao, abertura, fechamento)
-
+                clinica = Clinica(nome, localizacao, descricao, abertura, fechamento)
+                self.__clinicas.append(clinica)
+                print("Clínica cadastrada com sucesso!")
+                break
+            
+            except ValueError:
+                print("Horário inválido. Tente novamente.")
+    
     def exibir_clinica(self):
-        if self.__clinica:
-            print(self.__clinica.exibir_dados())
-        else:
+        if not self.__clinicas:
             print("Nenhuma clínica cadastrada.")
+            return
+
+        for clinica in self.__clinicas:
+            print("\n")
+            print(clinica.exibir_dados())
 
     def abrir_menu(self):
         while True:
