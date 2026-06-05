@@ -60,6 +60,29 @@ class ControladorPaciente:
 
         print("Paciente não encontrado.")
 
+    def escolher_paciente(self):
+        if len(self.__pacientes) == 0:
+            print("Nenhum paciente cadastrado.")
+            return None
+
+        print("\n=== ESCOLHER PACIENTE ===")
+
+        for i, paciente in enumerate(self.__pacientes):
+            print(f"{i + 1} - {paciente.nome}")
+
+        try:
+            opcao = int(input("Escolha o paciente: "))
+
+            if opcao < 1 or opcao > len(self.__pacientes):
+                print("Opção inválida.")
+                return None
+
+            return self.__pacientes[opcao - 1]
+
+        except ValueError:
+            print("Digite um número válido.")
+            return None
+
     def abrir_menu(self):
         while True:
             print("\n=== PACIENTES ===")
