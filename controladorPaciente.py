@@ -25,11 +25,22 @@ class ControladorPaciente(Paciente):
             print("\n")
             print(paciente.exibir_dados())
 
+    def excluir_paciente(self):
+        cpf = input("CPF do paciente: ")
+
+        for paciente in self.__pacientes:
+            if paciente.cpf == cpf:
+                self.__pacientes.remove(paciente)
+                print("Paciente removido com sucesso.")
+                return
+        print("Paciente não encontrado.")
+
     def abrir_menu(self):
         while True:
             print("\n=== PACIENTES ===")
             print("1 - Cadastrar")
             print("2 - Listar")
+            print("3 - Excluir")
             print("0 - Voltar")
 
             opcao = input("Opção: ")
@@ -39,6 +50,9 @@ class ControladorPaciente(Paciente):
 
             elif opcao == "2":
                 self.listar_pacientes()
+
+            elif opcao == "3":
+                self.excluir_paciente()
 
             elif opcao == "0":
                 break
