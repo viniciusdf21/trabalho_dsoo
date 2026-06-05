@@ -27,6 +27,8 @@ class CartaoCredito(Pagamento):
         numero = self.__numero
         if len(numero) < 13 or not numero.isdigit():
             raise ValueError("Número do cartão inválido")
+        if self.__bandeira == "":
+            raise ValueError("Bandeira do cartão inválida")
         return True
     
     def validar_pagamento(self):
