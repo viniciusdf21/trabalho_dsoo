@@ -66,6 +66,29 @@ class ControladorClinica:
 
         print("Clínica não encontrada.")
 
+    def escolher_clinica(self):
+        if len(self.__clinicas) == 0:
+            print("Nenhuma clínica cadastrada.")
+            return None
+
+        print("\n=== ESCOLHER CLÍNICA ===")
+
+        for i, clinica in enumerate(self.__clinicas):
+            print(f"{i + 1} - {clinica.nome}")
+
+        try:
+            opcao = int(input("Escolha a clínica: "))
+
+            if opcao < 1 or opcao > len(self.__clinicas):
+                print("Opção inválida.")
+                return None
+
+            return self.__clinicas[opcao - 1]
+
+        except ValueError:
+            print("Digite um número válido.")
+            return None
+
     def abrir_menu(self):
         while True:
             print("\n=== CLÍNICA ===")
