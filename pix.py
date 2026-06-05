@@ -16,10 +16,10 @@ class Pix(Pagamento):
 
     def validar_cpf(self):
         cpf = self.__cpf_pagante
-        if len(cpf) == 11:
+        if len(cpf) == 11 and cpf.isdigit():
             return True
         else:
-            raise ValueError("CPF deve possuir 11 dígitos")
+            raise ValueError("CPF deve possuir 11 dígitos numéricos")
 
     def validar_pagamento(self):
         if self.valor_pago <= 0:
