@@ -11,11 +11,17 @@ class ControladorPaciente(Paciente):
         cpf = input("CPF: ")
         celular = input("Celular: ")
 
-        ano = int(input("Ano de nascimento: "))
-        mes = int(input("Mês de nascimento: "))
-        dia = int(input("Dia de nascimento: "))
+        while True:
+            try:
+                ano = int(input("Ano de nascimento: "))
+                mes = int(input("Mês de nascimento: "))
+                dia = int(input("Dia de nascimento: "))
+        
+                data_nascimento = date(ano, mes, dia)
+                break
 
-        data_nascimento = date(ano, mes, dia)
+            except ValueError: 
+                print("Data inválida. Tente Novamente.") 
 
         try:
             paciente = Paciente(nome, cpf, celular, data_nascimento)
