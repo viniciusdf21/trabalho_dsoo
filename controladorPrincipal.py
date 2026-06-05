@@ -23,13 +23,13 @@ class ControladorPrincipal:
                 self.__controladorPaciente.abrir_menu()
                 
             elif opcao == "2":
-                self.__controlador_profissionais.abrir_menu()
+                self.__controladorProfissional.abrir_menu()
 
             elif opcao == "3":
-                self.__controlador_clinica.abrir_menu()
+                self.__controladorClinica.abrir_menu()
 
             elif opcao == "4":
-                self.__controlador_tipo_atendimentos.abrir_menu()
+                self.__controladorTipoAtendimentos.abrir_menu()
 
             elif opcao == "0":
                 break
