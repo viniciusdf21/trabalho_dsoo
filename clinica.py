@@ -35,23 +35,23 @@ class Clinica():
         
     @property
     def horario_abertura(self):
-        return self.horario_abertura
+        return self.__horario_abertura
     
     @horario_abertura.setter
     def horario_abertura(self, novo_ha):
         if not isinstance(novo_ha, time):
             raise ValueError("O horário deve ser do tipo time.")
-        self.horario_abertura = novo_ha
+        self.__horario_abertura = novo_ha
         
     @property
     def horario_fechamento(self):
-        return self.horario_fechamento
+        return self.__horario_fechamento
     
     @horario_fechamento.setter
     def horario_fechamento(self, novo_hf):
         if not isinstance(novo_hf, time):
             raise ValueError("O horário deve ser do tipo time")
-        self.horario_fechamento = novo_hf
+        self.__horario_fechamento = novo_hf
         
     def verificar_funcionamento(self):
         hora_atual = datetime.now().time()
