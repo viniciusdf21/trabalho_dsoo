@@ -3,6 +3,7 @@ from controladorProfissional import ControladorProfissional
 from controladorClinica import ControladorClinica
 from controladorTipoAten import ControladorTipoAtendimentos
 from controladorAtendimento import ControladorAtendimento
+from controladorPagamento import ControladorPagamento
 
 class ControladorPrincipal:
 
@@ -12,6 +13,7 @@ class ControladorPrincipal:
         self.__controladorClinica = ControladorClinica()
         self.__controladorTipoAtendimentos = ControladorTipoAtendimentos()
         self.__controladorAtendimento = ControladorAtendimento()
+        self.__controladorPagamento = ControladorPagamento()
 
     def iniciar(self):
         while True:
@@ -21,6 +23,7 @@ class ControladorPrincipal:
             print("3 - Clínica")
             print("4 - Tipos de atendimentos")
             print("5 - Atendimentos") 
+            print("6 - Pagamentos")
             print("0 - Sair")
 
             opcao = input("Escolha uma opção: ")
@@ -39,6 +42,9 @@ class ControladorPrincipal:
 
             elif opcao == "5":
                 self.__controladorAtendimento.abrir_menu()
+
+            elif opcao == "6":
+                self.__controladorPagamento.abrir_menu()
 
             elif opcao == "0":
                 print("Sistema encerrado.") 
