@@ -21,6 +21,8 @@ class Pessoa(ABC):
     
     @cpf.setter
     def cpf(self, novo_cpf):
+        if not self.validar_cpf(novo_cpf):
+            raise ValueError("CPF deve conter exatamente 11 dígitos.")
         self.__cpf = novo_cpf
         
     @property
