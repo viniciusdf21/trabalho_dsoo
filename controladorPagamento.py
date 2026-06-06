@@ -66,11 +66,110 @@ class ControladorPagamento:
 
         print(f"\nValor restante: R$ {atendimento.calcular_valor_restante():.2f}")
 
+    def escolher_pagamento(self, atendimento):
+        if not atendimento.lista_pagamentos:
+            print("Nenhum pagamento registrado.")
+            return None
+
+        print("\n=== ESCOLHER PAGAMENTO ===")
+
+        for i, pagamento in enumerate(atendimento.lista_pagamentos):
+            print(f"{i + 1} - {pagamento.__class__.__name__} - R$ {pagamento.valor_pago:.2f} - {pagamento.data}")
+
+        try:
+            opcao = int(input("Escolha o pagamento: "))
+
+            if opcao < 1 or opcao > len(atendimento.lista_pagamentos):
+                print("Pagamento inválido.")
+                return None
+
+            return atendimento.lista_pagamentos[opcao - 1]
+
+        except ValueError:
+            print("Digite um número válido.")
+            return None
+
+    def alterar_pagamento(self, atendimento):
+        pagamento = self.escolher_pagamento(atendimento)
+
+        if pagamento is None:
+            return
+
+        while True:
+            print("\n=== ALTERAR PAGAMENTO ===")
+            print("1 - Alterar data")
+            print("2 - Alterar valor pago")
+
+            if isinstance(pagamento, Pix):
+                print("3 - Alterar CPF do pagante")
+
+            elif isinstance(pagamento, CartaoCredito):
+                print("3 - Alterar número do cartão")
+                print("4 - Alterar bandeira")
+
+            print("0 - Voltar")
+
+            opcao = input("Opção: ")
+
+            try:
+                if opcao == "1":
+                    nova_data = date(
+                        int(input("Novo ano do pagamento: ")),
+                        int(input("Novo mês do pagamento: ")),
+                        int(input("Novo dia do pagamento: "))
+                    )
+
+                    pagamento.data = nova_data
+                    pagamento.registrar_pagamento()
+                    print("Data do pagamento alterada com sucesso.")
+
+                elif opcao == "2":
+                    pagamento.valor_pago = float(input("Novo valor pago: "))
+                    pagamento.registrar_pagamento()
+                    print("Valor pago alterado com sucesso.")
+
+                elif opcao == "3" and isinstance(pagamento, Pix):
+                    pagamento.cpf_pagante = input("Novo CPF do pagante: ")
+                    print("CPF do pagante alterado com sucesso.")
+
+                elif opcao == "3" and isinstance(pagamento, CartaoCredito):
+                    pagamento.numero = input("Novo número do cartão: ")
+                    print("Número do cartão alterado com sucesso.")
+
+                elif opcao == "4" and isinstance(pagamento, CartaoCredito):
+                    pagamento.bandeira = input("Nova bandeira: ")
+                    print("Bandeira alterada com sucesso.")
+
+                elif opcao == "0":
+                    break
+
+                else:
+                    print("Opção inválida.")
+
+            except ValueError as erro:
+                print(f"Erro ao alterar pagamento: {erro}")
+
+    def excluir_pagamento(self, atendimento):
+        pagamento = self.escolher_pagamento(atendimento)
+
+        if pagamento is None:
+            return
+
+        confirmacao = input("Tem certeza que deseja excluir este pagamento? (s/n): ")
+
+        if confirmacao.lower() == "s":
+            atendimento.lista_pagamentos.remove(pagamento)
+            print("Pagamento excluído com sucesso.")
+        else:
+            print("Exclusão cancelada.")
+
     def abrir_menu(self, controlador_atendimento):
         while True:
             print("\n=== PAGAMENTOS ===")
             print("1 - Registrar")
             print("2 - Listar")
+            print("3 - Alterar")
+            print("4 - Excluir")
             print("0 - Voltar")
 
             opcao = input("Opção: ")
@@ -87,6 +186,21 @@ class ControladorPagamento:
                 if atendimento is not None:
                     self.listar_pagamentos(atendimento)
 
+            elif opcao == "3":
+                atendimento = controlador_atendimento.escolher_atendimento()
+
+                if atendimento is not None:
+                    self.alterar_pagamento(atendimento)
+
+            elif opcao == "4":
+                atendimento = controlador_atendimento.escolher_atendimento()
+
+                if atendimento is not None:
+                    self.excluir_pagamento(atendimento)
+
             elif opcao == "0":
                 break
+
+            else:
+                print("Opção inválida.")
 
