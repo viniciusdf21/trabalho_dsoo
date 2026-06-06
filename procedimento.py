@@ -1,9 +1,9 @@
 class Procedimento:
     def __init__(self, nome, descricao, custo, profissional):
-        self.__nome = nome
-        self.__descricao = descricao
-        self.__custo = custo
-        self.__profissional = profissional
+        self.nome = nome
+        self.descricao = descricao
+        self.custo = custo
+        self.profissional = profissional
 
     @property
     def nome(self):
@@ -27,6 +27,8 @@ class Procedimento:
 
     @custo.setter
     def custo(self, custo):
+        if custo <= 0:
+            raise ValueError("O custo do procedimento deve ser maior que zero.")
         self.__custo = custo
 
     @property
