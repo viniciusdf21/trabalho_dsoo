@@ -17,6 +17,42 @@ class ControladorPrincipal:
         self.__controladorPagamento = ControladorPagamento()
         self.__controladorProcedimento = ControladorProcedimento()
 
+    def relatorio_clinica_mais_atendimentos(self):
+        atendimentos = self.__controladorAtendimento.atendimentos
+        if len(atendimentos) == 0:
+            print("Nenhum atendimento cadastrado.")
+            return
+        contagem = {}
+
+        for atendimento in atendimentos:
+            nome_clinica = atendimento.clinica.nome
+            if nome_clinica in contagem:
+                contagem[nome_clinica] += 1
+            else:
+                contagem[nome_clinica] = 1
+        maior_clinica = max(contagem, key=contagem.get)
+
+        print("\n=== RELATÓRIO ===")
+        print(f"Clínica com mais atendimentos: {maior_clinica}")
+        print(f"Quantidade de atendimentos: {contagem[maior_clinica]}")
+
+    def menu_relatorios(self):
+        while True:
+            print("\n=== RELATÓRIOS ===")
+            print("1 - Clínica com mais atendimentos")
+            print("0 - Voltar")
+
+            opcao = input("Opção: ")
+            if opcao == "1":
+                self.relatorio_clinica_mais_atendimentos()
+
+            elif opcao == "0":
+                break
+
+            else:
+                print("Opção inválida.")
+
+
     def iniciar(self):
         while True:
             print("\n=== SISTEMA DA CLÍNICA ===")
@@ -26,7 +62,8 @@ class ControladorPrincipal:
             print("4 - Tipos de atendimentos")
             print("5 - Atendimentos") 
             print("6 - Pagamentos")
-            print("7 - Procedimentos") 
+            print("7 - Procedimentos")
+            print("8 - Relatórios")
             print("0 - Sair")
 
             opcao = input("Escolha uma opção: ")
@@ -60,6 +97,9 @@ class ControladorPrincipal:
                 self.__controladorProcedimento.abrir_menu(
                 self.__controladorAtendimento
                 )
+
+            elif opcao == "8":
+                self.menu_relatorios()
 
             elif opcao == "0":
                 print("Sistema encerrado.") 
