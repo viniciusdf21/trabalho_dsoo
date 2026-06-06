@@ -65,7 +65,7 @@ class ControladorPrincipal:
                 )
 
             elif opcao == "8":
-                self.__controldorRelatorio.abrir_menu(self.__controladorAtendimento)
+                self.__controladorRelatorio.abrir_menu(self.__controladorAtendimento)
 
             elif opcao == "0":
                 print("Sistema encerrado.") 
