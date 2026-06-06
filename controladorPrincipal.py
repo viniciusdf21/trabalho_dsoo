@@ -5,6 +5,7 @@ from controladorTipoAten import ControladorTipoAtendimentos
 from controladorAtendimento import ControladorAtendimento
 from controladorPagamento import ControladorPagamento
 from controladorProcedimento import ControladorProcedimento
+from controladorRelatorio import ControladorRelatorio
 
 class ControladorPrincipal:
 
@@ -16,6 +17,7 @@ class ControladorPrincipal:
         self.__controladorAtendimento = ControladorAtendimento()
         self.__controladorPagamento = ControladorPagamento()
         self.__controladorProcedimento = ControladorProcedimento()
+        self.__controladorRelatorio = ControladorRelatorio()
 
     def relatorio_clinica_mais_atendimentos(self):
         atendimentos = self.__controladorAtendimento.atendimentos
@@ -99,7 +101,7 @@ class ControladorPrincipal:
                 )
 
             elif opcao == "8":
-                self.menu_relatorios()
+                self.__controldorRelatorio.abrir_menu(self.__controladorAtendimento)
 
             elif opcao == "0":
                 print("Sistema encerrado.") 
