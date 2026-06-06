@@ -64,23 +64,23 @@ class ControladorTipoAtendimentos:
         print("Tipo de atendimento não encontrado.")
         
     def escolher_tipo_atendimento(self):
-        if len(self.__tipo_atendimentos) == 0:
+        if len(self.__tipos_atendimento) == 0:
             print("Nenhum tipo de atendimento cadastrado.")
             return None
 
         print("\n=== ESCOLHER TIPO DE ATENDIMENTO ===")
 
-        for i, tipo_atendimento in enumerate(self.__tipo_atendimentos):
+        for i, tipo_atendimento in enumerate(self.__tipos_atendimento):
             print(f"{i + 1} - {tipo_atendimento.nome}")
 
         try:
             opcao = int(input("Escolha o tipo de atendimento: "))
 
-            if opcao < 1 or opcao > len(self.__tipo_atendimentos):
+            if opcao < 1 or opcao > len(self.__tipos_atendimento):
                 print("Opção inválida.")
                 return None
 
-            return self.__tipo_atendimentos[opcao - 1]
+            return self.__tipos_atendimento[opcao - 1]
 
         except ValueError:
             print("Digite um número válido.")
