@@ -2,25 +2,15 @@ from datetime import date, time
 
 
 class Atendimento:
-    def __init__(
-        self,
-        clinica,
-        paciente,
-        profissional,
-        data,
-        horario_inicio,
-        horario_fim,
-        tipo_atendimento,
-        valor
-    ):
+    def __init__(self, clinica, paciente, profissional, data, horario_inicio, horario_fim, tipo_atendimento, valor):
         self.__clinica = clinica
         self.__paciente = paciente
         self.__profissional = profissional
-        self.__data = data
-        self.__horario_inicio = horario_inicio
-        self.__horario_fim = horario_fim
+        self.data = data
+        self.horario_inicio = horario_inicio
+        self.horario_fim = horario_fim
         self.__tipo_atendimento = tipo_atendimento
-        self.__valor = valor
+        self.valor = valor
         self.__lista_procedimentos = []
         self.__lista_pagamentos = []
 
@@ -56,7 +46,6 @@ class Atendimento:
     def data(self, data):
         if not isinstance(data, date):
             raise ValueError("A data do atendimento deve ser do tipo date.")
-
         self.__data = data
 
     @property
@@ -67,7 +56,6 @@ class Atendimento:
     def horario_inicio(self, horario_inicio):
         if not isinstance(horario_inicio, time):
             raise ValueError("O horário de início deve ser do tipo time.")
-
         self.__horario_inicio = horario_inicio
 
     @property
@@ -78,7 +66,6 @@ class Atendimento:
     def horario_fim(self, horario_fim):
         if not isinstance(horario_fim, time):
             raise ValueError("O horário de fim deve ser do tipo time.")
-
         self.__horario_fim = horario_fim
 
     @property
