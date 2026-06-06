@@ -19,42 +19,6 @@ class ControladorPrincipal:
         self.__controladorProcedimento = ControladorProcedimento()
         self.__controladorRelatorio = ControladorRelatorio()
 
-    def relatorio_clinica_mais_atendimentos(self):
-        atendimentos = self.__controladorAtendimento.atendimentos
-        if len(atendimentos) == 0:
-            print("Nenhum atendimento cadastrado.")
-            return
-        contagem = {}
-
-        for atendimento in atendimentos:
-            nome_clinica = atendimento.clinica.nome
-            if nome_clinica in contagem:
-                contagem[nome_clinica] += 1
-            else:
-                contagem[nome_clinica] = 1
-        maior_clinica = max(contagem, key=contagem.get)
-
-        print("\n=== RELATÓRIO ===")
-        print(f"Clínica com mais atendimentos: {maior_clinica}")
-        print(f"Quantidade de atendimentos: {contagem[maior_clinica]}")
-
-    def menu_relatorios(self):
-        while True:
-            print("\n=== RELATÓRIOS ===")
-            print("1 - Clínica com mais atendimentos")
-            print("0 - Voltar")
-
-            opcao = input("Opção: ")
-            if opcao == "1":
-                self.relatorio_clinica_mais_atendimentos()
-
-            elif opcao == "0":
-                break
-
-            else:
-                print("Opção inválida.")
-
-
     def iniciar(self):
         while True:
             print("\n=== SISTEMA DA CLÍNICA ===")
