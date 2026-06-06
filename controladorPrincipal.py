@@ -44,13 +44,22 @@ class ControladorPrincipal:
                 self.__controladorTipoAtendimentos.abrir_menu()
 
             elif opcao == "5":
-                self.__controladorAtendimento.abrir_menu()
+                self.__controladorAtendimento.abrir_menu(
+                self.__controladorClinica,
+                self.__controladorPaciente,
+                self.__controladorProfissional,
+                self.__controladorTipoAtendimentos
+                )
 
             elif opcao == "6":
-                self.__controladorPagamento.abrir_menu()
+                self.__controladorPagamento.abrir_menu(
+                self.__controladorAtendimento
+                )
 
             elif opcao == "7":
-                self.__controladorProcedimento.abrir_menu()
+                self.__controladorProcedimento.abrir_menu(
+                self.__controladorAtendimento
+                )
 
             elif opcao == "0":
                 print("Sistema encerrado.") 
