@@ -14,8 +14,18 @@ class TelaPaciente:
 
         return ano, mes, dia
 
-    def mostrar_mensagem(self, mensagem):
-        print(mensagem)
+    def pegar_cpf(self):
+        return input("CPF do paciente: ")
+
+    def pegar_dados_alteracao(self):
+        nome = input("Novo nome: ")
+        celular = input("Novo celular: ")
+        return nome, celular
+
+    def mostrar_pacientes(self, pacientes):
+        for paciente in pacientes:
+            print("\n")
+            print(paciente.exibir_dados())
 
     def mostrar_menu(self):
         print("\n=== PACIENTES ===")
