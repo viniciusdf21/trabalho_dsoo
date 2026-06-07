@@ -1,15 +1,13 @@
 from profissional import Profissional
+from telaProfissional import TelaProfissional
 
 class ControladorProfissional:
     def __init__(self):
         self.__profissionais = []
+        self.__tela = TelaProfissional()
 
     def cadastrar_profissional(self):
-        nome = input("Nome: ")
-        cpf = input("CPF: ")
-        celular = input("Celular: ")
-        especialidade = input("Especialidade: ")
-        registro = input("Registro: ")
+        nome, cpf, celular, especialidade, registro = self.__tela.pegar_dados_profissional()
 
         try: 
             profissional = Profissional(nome, cpf, celular, especialidade, registro)
@@ -76,14 +74,8 @@ class ControladorProfissional:
 
     def abrir_menu(self):
         while True:
-            print("\n=== PROFISSIONAIS ===")
-            print("1 - Cadastrar")
-            print("2 - Listar")
-            print("3 - Excluir")
-            print("4 - Alterar")
-            print("0 - Voltar")
 
-            opcao = input("Opção: ")
+            opcao = self.__tela.mostrar_menu()
 
             if opcao == "1":
                 self.cadastrar_profissional()
