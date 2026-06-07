@@ -1,12 +1,13 @@
 from tipoAtendimento import TipoAtendimento
+from telaTipoAtendimento import TelaTipoAtendimento
 
 class ControladorTipoAtendimentos:
     def __init__(self):
         self.__tipos_atendimento = []
+        self.__tela = TelaTipoAtendimento()
 
     def cadastrar_tipo_atendimento(self):
-        nome = input("Nome do tipo de atendimento: ")
-        descricao = input("Descrição: ")
+        nome, descricao = self.__tela.pegar_dados_tipo()
 
         while True:
             try:
@@ -88,14 +89,8 @@ class ControladorTipoAtendimentos:
 
     def abrir_menu(self):
         while True:
-            print("\n=== TIPOS DE ATENDIMENTO ===")
-            print("1 - Cadastrar")
-            print("2 - Listar")
-            print("3 - Excluir")
-            print("4 - Alterar")
-            print("0 - Voltar")
 
-            opcao = input("Opção: ")
+            opcao = self.__tela.mostrar_menu()
 
             if opcao == "1":
                 self.cadastrar_tipo_atendimento()
