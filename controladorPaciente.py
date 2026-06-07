@@ -6,17 +6,14 @@ from telaPaciente import TelaPaciente
 class ControladorPaciente:
     def __init__(self):
         self.__pacientes = []
+        self.__tela = TelaPaciente()
 
     def cadastrar_paciente(self):
-        nome = input("Nome: ")
-        cpf = input("CPF: ")
-        celular = input("Celular: ")
+        nome, cpf, celular = self.__tela.pegar_dados_paciente()
 
         while True:
             try:
-                ano = int(input("Ano de nascimento: "))
-                mes = int(input("Mês de nascimento: "))
-                dia = int(input("Dia de nascimento: "))
+                ano, mes, dia = self.__tela.pegar_data_nascimento()
         
                 data_nascimento = date(ano, mes, dia)
                 break
@@ -43,9 +40,9 @@ class ControladorPaciente:
         for paciente in self.__pacientes:
             if paciente.cpf == cpf:
                 self.__pacientes.remove(paciente)
-                print("Paciente removido com sucesso.")
+                self.__tela.mostrar_mensagem("Paciente removido com sucesso.")
                 return
-        print("Paciente não encontrado.")
+        self.__tela.mostrar_mansagem("Paciente não encontrado.")
 
     def alterar_paciente(self):
         cpf = input("CPF do paciente: ")
@@ -56,7 +53,7 @@ class ControladorPaciente:
                 paciente.nome = input("Novo nome: ")
                 paciente.celular = input("Novo celular: ")
 
-                print("Paciente alterado com sucesso!")
+                self.__tela.mostrar_mensagem("Paciente alterado com sucesso!")
                 return
 
         print("Paciente não encontrado.")
@@ -86,14 +83,8 @@ class ControladorPaciente:
 
     def abrir_menu(self):
         while True:
-            print("\n=== PACIENTES ===")
-            print("1 - Cadastrar")
-            print("2 - Listar")
-            print("3 - Excluir")
-            print("4 - Alterar")
-            print("0 - Voltar")
 
-            opcao = input("Opção: ")
+            opcao = self.__tela.mostrar_menu()
 
             if opcao == "1":
                 self.cadastrar_paciente()
