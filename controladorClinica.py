@@ -1,27 +1,20 @@
 from clinica import Clinica
 from datetime import time
-
+from telaClinica import TelaClinica
 
 class ControladorClinica:
     def __init__(self):
         self.__clinicas = []
+        self.__tela = TelaClinica()
 
     def cadastrar_clinica(self):
-        nome = input("Nome: ")
-        localizacao = input("Localização: ")
-        descricao = input("Descrição: ")
+        nome, localizacao, descricao = self.__tela.pegar_dados_clinica()
 
         while True:
             try:
-                abertura = time(
-                    int(input("Hora abertura: ")),
-                    int(input("Minuto abertura: "))
-                )
-        
-                fechamento = time(
-                    int(input("Hora fechamento: ")),
-                    int(input("Minuto fechamento: "))
-                )
+                ha, ma, hf, mf = self.__tela.pegar_horarios()
+                abertura = time(ha, ma)
+                fechamento = time(hf, mf)
 
                 clinica = Clinica(nome, localizacao, descricao, abertura, fechamento)
                 self.__clinicas.append(clinica)
@@ -91,14 +84,8 @@ class ControladorClinica:
 
     def abrir_menu(self):
         while True:
-            print("\n=== CLÍNICA ===")
-            print("1 - Cadastrar")
-            print("2 - Listar")
-            print("3 - Excluir")
-            print("4 - Alterar")
-            print("0 - Voltar")
 
-            opcao = input("Opção: ")
+            opcao = self.__tela.mostrar_menu()
 
             if opcao == "1":
                 self.cadastrar_clinica()
