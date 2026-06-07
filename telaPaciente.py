@@ -7,6 +7,13 @@ class TelaPaciente:
 
         return nome, cpf, celular
 
+    def pegar_data_nascimento(self):
+        ano = int(input("Ano de nascimento: "))
+        mes = int(input("Mês de nascimento: "))
+        dia = int(input("Dia de nascimento: "))
+
+    return ano, mes, dia
+
     def mostrar_mensagem(self, mensagem):
         print(mensagem)
 
