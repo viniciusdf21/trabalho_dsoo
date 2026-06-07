@@ -147,14 +147,14 @@ class Atendimento:
 
     def exibir_dados(self):
         return (
-            f"Clínica: {self.__clinica.nome}\n"
-            f"Paciente: {self.__paciente.nome}\n"
-            f"Profissional: {self.__profissional.nome}\n"
-            f"Data: {self.__data}\n"
-            f"Horário de início: {self.__horario_inicio}\n"
-            f"Horário de fim: {self.__horario_fim}\n"
-            f"Tipo de atendimento: {self.__tipo_atendimento.nome}\n"
-            f"Valor base: R$ {self.__valor:.2f}\n"
-            f"Valor total: R$ {self.calcular_valor_total():.2f}\n"
-            f"Valor restante: R$ {self.calcular_valor_restante():.2f}"
-        )
+        f"Clínica: {self.__clinica.nome}\n"
+        f"Paciente: {self.__paciente.nome}\n"
+        f"Profissional: {self.__profissional.nome}\n"
+        f"Data: {self.__data}\n"
+        f"Horário de início: {self.__horario_inicio.strftime('%H:%M')}\n"
+        f"Horário de fim: {self.__horario_fim.strftime('%H:%M')}\n"
+        f"Tipo de atendimento: {self.__tipo_atendimento.nome}\n"
+        f"Valor base: R$ {self.__valor:.2f}\n"
+        f"Valor total: R$ {self.calcular_valor_total():.2f}\n"
+        f"Valor restante: R$ {self.calcular_valor_restante():.2f}")
+        
