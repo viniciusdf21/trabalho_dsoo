@@ -1,93 +1,66 @@
-from datetime import date
-
 from pagamento import Pagamento
 from dinheiro import Dinheiro
 from pix import Pix
 from cartão import CartaoCredito
+from telaPagamento import TelaPagamento
 
 
 class ControladorPagamento:
+    def __init__(self):
+        self.__tela_pagamento = TelaPagamento()
+
+
     def registrar_pagamento(self, pagamento: Pagamento):
         try:
             pagamento.registrar_pagamento()
             pagamento.atendimento.adicionar_pagamento(pagamento)
 
-            print("Pagamento registrado com sucesso.")
+            self.__tela_pagamento.mostrar_mensagem("Pagamento registrado com sucesso.")
 
         except ValueError as erro:
-            print(f"Erro ao registrar pagamento: {erro}")
+            self.__tela_pagamento.mostrar_erro_registro(erro)
+
 
     def cadastrar_pagamento(self, atendimento):
         try:
-            data_pagamento = date(
-                int(input("Ano do pagamento: ")),
-                int(input("Mês do pagamento: ")),
-                int(input("Dia do pagamento: "))
-            )
+            data_pagamento = self.__tela_pagamento.ler_data_pagamento()
+            valor_pago = self.__tela_pagamento.ler_valor_pago()
 
-            valor_pago = float(input("Valor pago: "))
-
-            print("\n1 - Dinheiro")
-            print("2 - Pix")
-            print("3 - Cartão de crédito")
-            opcao = input("Opção: ")
+            opcao = self.__tela_pagamento.mostrar_menu_tipo_pagamento()
 
             if opcao == "1":
-                pagamento = Dinheiro(data_pagamento, atendimento, atendimento.paciente, valor_pago)
+                pagamento = Dinheiro(
+                    data_pagamento,atendimento, atendimento.paciente, valor_pago)
 
             elif opcao == "2":
-                cpf_pagante = input("CPF do pagante: ")
-                pagamento = Pix(data_pagamento, atendimento, atendimento.paciente, valor_pago, cpf_pagante)
+                cpf_pagante = self.__tela_pagamento.ler_cpf_pagante()
+
+                pagamento = Pix(
+                    data_pagamento, atendimento,atendimento.paciente, valor_pago, cpf_pagante)
 
             elif opcao == "3":
-                numero = input("Número do cartão: ")
-                bandeira = input("Bandeira: ")
+                numero = self.__tela_pagamento.ler_numero_cartao()
+                bandeira = self.__tela_pagamento.ler_bandeira()
+
                 pagamento = CartaoCredito(data_pagamento, atendimento, atendimento.paciente, valor_pago, numero, bandeira)
 
             else:
-                print("Opção inválida.")
+                self.__tela_pagamento.mostrar_mensagem("Opção inválida.")
                 return
 
             self.registrar_pagamento(pagamento)
 
         except ValueError as erro:
-            print(f"Erro ao cadastrar pagamento: {erro}")
+            self.__tela_pagamento.mostrar_erro_cadastro(erro)
+
 
     def listar_pagamentos(self, atendimento):
-        if not atendimento.lista_pagamentos:
-            print("Nenhum pagamento registrado.")
-            return
+        self.__tela_pagamento.mostrar_pagamentos(atendimento)
 
-        for pagamento in atendimento.lista_pagamentos:
-            print("\n")
-            print(f"Tipo: {pagamento.__class__.__name__}")
-            print(f"Data: {pagamento.data}")
-            print(f"Valor pago: R$ {pagamento.valor_pago:.2f}")
-
-        print(f"\nValor restante: R$ {atendimento.calcular_valor_restante():.2f}")
 
     def escolher_pagamento(self, atendimento):
-        if not atendimento.lista_pagamentos:
-            print("Nenhum pagamento registrado.")
-            return None
+        return self.__tela_pagamento.escolher_pagamento(atendimento)
 
-        print("\n=== ESCOLHER PAGAMENTO ===")
-
-        for i, pagamento in enumerate(atendimento.lista_pagamentos):
-            print(f"{i + 1} - {pagamento.__class__.__name__} - R$ {pagamento.valor_pago:.2f} - {pagamento.data}")
-
-        try:
-            opcao = int(input("Escolha o pagamento: "))
-
-            if opcao < 1 or opcao > len(atendimento.lista_pagamentos):
-                print("Pagamento inválido.")
-                return None
-
-            return atendimento.lista_pagamentos[opcao - 1]
-
-        except ValueError:
-            print("Digite um número válido.")
-            return None
 
     def alterar_pagamento(self, atendimento):
         pagamento = self.escolher_pagamento(atendimento)
@@ -95,59 +68,33 @@ class ControladorPagamento:
         if pagamento is None:
             return
 
-        while True:
-            print("\n=== ALTERAR PAGAMENTO ===")
-            print("1 - Alterar data")
-            print("2 - Alterar valor pago")
+        try:
+            self.__tela_pagamento.mostrar_inicio_alteracao()
+
+            nova_data = self.__tela_pagamento.ler_data_pagamento()
+            novo_valor_pago = self.__tela_pagamento.ler_valor_pago()
+
+            pagamento.data = nova_data
+            pagamento.valor_pago = novo_valor_pago
 
             if isinstance(pagamento, Pix):
-                print("3 - Alterar CPF do pagante")
+                novo_cpf_pagante = self.__tela_pagamento.ler_cpf_pagante()
+                pagamento.cpf_pagante = novo_cpf_pagante
 
             elif isinstance(pagamento, CartaoCredito):
-                print("3 - Alterar número do cartão")
-                print("4 - Alterar bandeira")
+                novo_numero = self.__tela_pagamento.ler_numero_cartao()
+                nova_bandeira = self.__tela_pagamento.ler_bandeira()
 
-            print("0 - Voltar")
+                pagamento.numero = novo_numero
+                pagamento.bandeira = nova_bandeira
 
-            opcao = input("Opção: ")
+            pagamento.registrar_pagamento()
 
-            try:
-                if opcao == "1":
-                    nova_data = date(
-                        int(input("Novo ano do pagamento: ")),
-                        int(input("Novo mês do pagamento: ")),
-                        int(input("Novo dia do pagamento: "))
-                    )
+            self.__tela_pagamento.mostrar_mensagem("Pagamento alterado com sucesso.")
 
-                    pagamento.data = nova_data
-                    pagamento.registrar_pagamento()
-                    print("Data do pagamento alterada com sucesso.")
+        except ValueError as erro:
+            self.__tela_pagamento.mostrar_erro_alteracao(erro)
 
-                elif opcao == "2":
-                    pagamento.valor_pago = float(input("Novo valor pago: "))
-                    pagamento.registrar_pagamento()
-                    print("Valor pago alterado com sucesso.")
-
-                elif opcao == "3" and isinstance(pagamento, Pix):
-                    pagamento.cpf_pagante = input("Novo CPF do pagante: ")
-                    print("CPF do pagante alterado com sucesso.")
-
-                elif opcao == "3" and isinstance(pagamento, CartaoCredito):
-                    pagamento.numero = input("Novo número do cartão: ")
-                    print("Número do cartão alterado com sucesso.")
-
-                elif opcao == "4" and isinstance(pagamento, CartaoCredito):
-                    pagamento.bandeira = input("Nova bandeira: ")
-                    print("Bandeira alterada com sucesso.")
-
-                elif opcao == "0":
-                    break
-
-                else:
-                    print("Opção inválida.")
-
-            except ValueError as erro:
-                print(f"Erro ao alterar pagamento: {erro}")
 
     def excluir_pagamento(self, atendimento):
         pagamento = self.escolher_pagamento(atendimento)
@@ -155,24 +102,14 @@ class ControladorPagamento:
         if pagamento is None:
             return
 
-        confirmacao = input("Tem certeza que deseja excluir este pagamento? (s/n): ")
+        atendimento.lista_pagamentos.remove(pagamento)
 
-        if confirmacao.lower() == "s":
-            atendimento.lista_pagamentos.remove(pagamento)
-            print("Pagamento excluído com sucesso.")
-        else:
-            print("Exclusão cancelada.")
+        self.__tela_pagamento.mostrar_mensagem("Pagamento excluído com sucesso.")
+
 
     def abrir_menu(self, controlador_atendimento):
         while True:
-            print("\n=== PAGAMENTOS ===")
-            print("1 - Registrar")
-            print("2 - Listar")
-            print("3 - Alterar")
-            print("4 - Excluir")
-            print("0 - Voltar")
-
-            opcao = input("Opção: ")
+            opcao = self.__tela_pagamento.mostrar_menu()
 
             if opcao == "1":
                 atendimento = controlador_atendimento.escolher_atendimento()
@@ -202,5 +139,5 @@ class ControladorPagamento:
                 break
 
             else:
-                print("Opção inválida.")
+                self.__tela_pagamento.mostrar_mensagem("Opção inválida.")
 
