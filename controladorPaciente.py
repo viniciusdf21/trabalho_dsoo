@@ -30,12 +30,10 @@ class ControladorPaciente:
             print(erro)
 
     def listar_pacientes(self):
-        for paciente in self.__pacientes:
-            print("\n")
-            print(paciente.exibir_dados())
+        self.__tela.mostrar_pacientes(self.__pacientes)
 
     def excluir_paciente(self):
-        cpf = input("CPF do paciente: ")
+        cpf = self.__tela.pegar_cpf()
 
         for paciente in self.__pacientes:
             if paciente.cpf == cpf:
@@ -45,13 +43,14 @@ class ControladorPaciente:
         self.__tela.mostrar_mansagem("Paciente não encontrado.")
 
     def alterar_paciente(self):
-        cpf = input("CPF do paciente: ")
+        cpf = self.__tela.pegar_cpf()
 
         for paciente in self.__pacientes:
             if paciente.cpf == cpf:
 
-                paciente.nome = input("Novo nome: ")
-                paciente.celular = input("Novo celular: ")
+                nome, celular, = self.__tela.pegar_dados_alteracao()
+                paciente.nome = nome
+                paciente.celular = celular
 
                 self.__tela.mostrar_mensagem("Paciente alterado com sucesso!")
                 return
