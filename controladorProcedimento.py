@@ -1,62 +1,42 @@
 from procedimento import Procedimento
+from telaProcedimento import TelaProcedimento
 
 
 class ControladorProcedimento:
+    def __init__(self):
+        self.__tela_procedimento = TelaProcedimento()
+
+
     def registrar_procedimento(self, atendimento, procedimento: Procedimento):
         try:
             atendimento.adicionar_procedimento(procedimento)
-
-            print("Procedimento registrado com sucesso.")
+            self.__tela_procedimento.mostrar_mensagem("Procedimento registrado com sucesso.")
             return procedimento
 
         except ValueError as erro:
-            print(f"Erro ao registrar procedimento: {erro}")
+            self.__tela_procedimento.mostrar_erro_registro(erro)
             return None
+
 
     def cadastrar_procedimento(self, atendimento):
         try:
-            nome = input("Nome do procedimento: ")
-            descricao = input("Descrição: ")
-            custo = float(input("Custo: "))
-
+            nome = self.__tela_procedimento.ler_nome()
+            descricao = self.__tela_procedimento.ler_descricao()
+            custo = self.__tela_procedimento.ler_custo()
             procedimento = Procedimento(nome, descricao, custo, atendimento.profissional)
-
             self.registrar_procedimento(atendimento, procedimento)
 
         except ValueError as erro:
-            print(f"Erro ao cadastrar procedimento: {erro}")
+            self.__tela_procedimento.mostrar_erro_cadastro(erro)
+
 
     def listar_procedimentos(self, atendimento):
-        if not atendimento.lista_procedimentos:
-            print("Nenhum procedimento registrado.")
-            return
+        self.__tela_procedimento.mostrar_procedimentos(atendimento)
 
-        for procedimento in atendimento.lista_procedimentos:
-            print("\n")
-            print(procedimento.exibir_dados())
 
     def escolher_procedimento(self, atendimento):
-        if not atendimento.lista_procedimentos:
-            print("Nenhum procedimento registrado.")
-            return None
+        return self.__tela_procedimento.escolher_procedimento(atendimento)
 
-        print("\n=== ESCOLHER PROCEDIMENTO ===")
-
-        for i, procedimento in enumerate(atendimento.lista_procedimentos):
-            print(f"{i + 1} - {procedimento.nome} - R$ {procedimento.custo:.2f}")
-
-        try:
-            opcao = int(input("Escolha o procedimento: "))
-
-            if opcao < 1 or opcao > len(atendimento.lista_procedimentos):
-                print("Procedimento inválido.")
-                return None
-
-            return atendimento.lista_procedimentos[opcao - 1]
-
-        except ValueError:
-            print("Digite um número válido.")
-            return None
 
     def alterar_procedimento(self, atendimento):
         procedimento = self.escolher_procedimento(atendimento)
@@ -64,36 +44,22 @@ class ControladorProcedimento:
         if procedimento is None:
             return
 
-        while True:
-            print("\n=== ALTERAR PROCEDIMENTO ===")
-            print("1 - Alterar nome")
-            print("2 - Alterar descrição")
-            print("3 - Alterar custo")
-            print("0 - Voltar")
+        try:
+            self.__tela_procedimento.mostrar_inicio_alteracao()
 
-            opcao = input("Opção: ")
+            novo_nome = self.__tela_procedimento.ler_nome()
+            nova_descricao = self.__tela_procedimento.ler_descricao()
+            novo_custo = self.__tela_procedimento.ler_custo()
 
-            try:
-                if opcao == "1":
-                    procedimento.nome = input("Novo nome do procedimento: ")
-                    print("Nome alterado com sucesso.")
+            procedimento.nome = novo_nome
+            procedimento.descricao = nova_descricao
+            procedimento.custo = novo_custo
 
-                elif opcao == "2":
-                    procedimento.descricao = input("Nova descrição: ")
-                    print("Descrição alterada com sucesso.")
+            self.__tela_procedimento.mostrar_mensagem("Procedimento alterado com sucesso.")
 
-                elif opcao == "3":
-                    procedimento.custo = float(input("Novo custo: "))
-                    print("Custo alterado com sucesso.")
+        except ValueError as erro:
+            self.__tela_procedimento.mostrar_erro_alteracao(erro)
 
-                elif opcao == "0":
-                    break
-
-                else:
-                    print("Opção inválida.")
-
-            except ValueError as erro:
-                print(f"Erro ao alterar procedimento: {erro}")
 
     def excluir_procedimento(self, atendimento):
         procedimento = self.escolher_procedimento(atendimento)
@@ -101,24 +67,14 @@ class ControladorProcedimento:
         if procedimento is None:
             return
 
-        confirmacao = input("Tem certeza que deseja excluir este procedimento? (s/n): ")
+        atendimento.lista_procedimentos.remove(procedimento)
 
-        if confirmacao.lower() == "s":
-            atendimento.lista_procedimentos.remove(procedimento)
-            print("Procedimento excluído com sucesso.")
-        else:
-            print("Exclusão cancelada.")
+        self.__tela_procedimento.mostrar_mensagem("Procedimento excluído com sucesso.")
+
 
     def abrir_menu(self, controlador_atendimento):
         while True:
-            print("\n=== PROCEDIMENTOS ===")
-            print("1 - Registrar")
-            print("2 - Listar")
-            print("3 - Alterar")
-            print("4 - Excluir")
-            print("0 - Voltar")
-
-            opcao = input("Opção: ")
+            opcao = self.__tela_procedimento.mostrar_menu()
 
             if opcao == "1":
                 atendimento = controlador_atendimento.escolher_atendimento()
@@ -148,4 +104,4 @@ class ControladorProcedimento:
                 break
 
             else:
-                print("Opção inválida.")
+                self.__tela_procedimento.mostrar_mensagem("Opção inválida.")
