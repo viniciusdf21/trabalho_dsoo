@@ -1,5 +1,6 @@
 from paciente import Paciente
 from datetime import date
+from telaPaciente import TelaPaciente
 
 
 class ControladorPaciente:
