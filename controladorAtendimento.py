@@ -185,7 +185,7 @@ class ControladorAtendimento:
     def abrir_menu(self, controlador_clinica, controlador_paciente, controlador_profissional, controlador_tipo_atendimento):
         while True:
             print("\n=== ATENDIMENTOS ===")
-            print("1 - Cadastrar")
+            print("1 - Registrar")
             print("2 - Listar")
             print("3 - Alterar")
             print("4 - Excluir")
