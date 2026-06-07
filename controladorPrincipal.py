@@ -23,16 +23,6 @@ class ControladorPrincipal:
 
     def iniciar(self):
         while True:
-            print("\n=== SISTEMA DA CLÍNICA ===")
-            print("1 - Pacientes")
-            print("2 - Profissionais")
-            print("3 - Clínica")
-            print("4 - Tipos de atendimentos")
-            print("5 - Atendimentos") 
-            print("6 - Pagamentos")
-            print("7 - Procedimentos")
-            print("8 - Relatórios")
-            print("0 - Sair")
 
             opcao = self.__tela.mostrar_menu()
 
