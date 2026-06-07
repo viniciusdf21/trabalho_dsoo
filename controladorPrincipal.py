@@ -6,6 +6,7 @@ from controladorAtendimento import ControladorAtendimento
 from controladorPagamento import ControladorPagamento
 from controladorProcedimento import ControladorProcedimento
 from controladorRelatorio import ControladorRelatorio
+from telaPrincipal import TelaPrincipal
 
 class ControladorPrincipal:
 
@@ -18,6 +19,7 @@ class ControladorPrincipal:
         self.__controladorPagamento = ControladorPagamento()
         self.__controladorProcedimento = ControladorProcedimento()
         self.__controladorRelatorio = ControladorRelatorio()
+        self.__tela = TelaPrincipal()
 
     def iniciar(self):
         while True:
@@ -32,7 +34,7 @@ class ControladorPrincipal:
             print("8 - Relatórios")
             print("0 - Sair")
 
-            opcao = input("Escolha uma opção: ")
+            opcao = self.__tela.mostrar_menu()
 
             if opcao == '1':
                 self.__controladorPaciente.abrir_menu()
@@ -68,7 +70,7 @@ class ControladorPrincipal:
                 self.__controladorRelatorio.abrir_menu(self.__controladorAtendimento)
 
             elif opcao == "0":
-                print("Sistema encerrado.") 
+                self.__tela.mostrar_mensagem("Sistema encerrado.") 
                 break
 
             else:
