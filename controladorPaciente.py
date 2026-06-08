@@ -38,9 +38,9 @@ class ControladorPaciente:
         for paciente in self.__pacientes:
             if paciente.cpf == cpf:
                 self.__pacientes.remove(paciente)
-                self.__tela.mostrar_mensagem("Paciente removido com sucesso.")
+                print("Paciente removido com sucesso.")
                 return
-        self.__tela.mostrar_mansagem("Paciente não encontrado.")
+        print("Paciente não encontrado.")
 
     def alterar_paciente(self):
         cpf = self.__tela.pegar_cpf()
@@ -52,7 +52,7 @@ class ControladorPaciente:
                 paciente.nome = nome
                 paciente.celular = celular
 
-                self.__tela.mostrar_mensagem("Paciente alterado com sucesso!")
+                print("Paciente alterado com sucesso!")
                 return
 
         print("Paciente não encontrado.")
