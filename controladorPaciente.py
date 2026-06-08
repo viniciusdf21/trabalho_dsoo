@@ -30,7 +30,9 @@ class ControladorPaciente:
             print(erro)
 
     def listar_pacientes(self):
-        self.__tela.mostrar_pacientes(self.__pacientes)
+        for paciente in self.__pacientes:
+            print("\n")
+            print(paciente.exibir_dados())
 
     def excluir_paciente(self):
         cpf = self.__tela.pegar_cpf()
