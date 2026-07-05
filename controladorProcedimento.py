@@ -1,5 +1,5 @@
 from procedimento import Procedimento
-from telaProcedimento import TelaProcedimento
+from telaProcedimentoGUI import TelaProcedimento
 
 
 class ControladorProcedimento:
