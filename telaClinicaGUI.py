@@ -9,11 +9,7 @@ class TelaClinica:
     def mostrar_menu(self):
 
         layout = [
-            [sg.Text("GERENCIAMENTO DE CLÍNICAS",
-                     font=("Arial", 16, "bold"),
-                     justification="center",
-                     expand_x=True)],
-
+            [sg.Text("GERENCIAMENTO DE CLÍNICAS")],
             [sg.Button("Cadastrar", size=(20, 2), key="1")],
             [sg.Button("Listar", size=(20, 2), key="2")],
             [sg.Button("Alterar", size=(20, 2), key="3")],
