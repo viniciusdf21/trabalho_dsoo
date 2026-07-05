@@ -1,5 +1,5 @@
 from atendimento import Atendimento
-from telaAtendimento import TelaAtendimento
+from telaAtendimentoGUI import TelaAtendimento
 
 
 class ControladorAtendimento:
