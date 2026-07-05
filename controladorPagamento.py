@@ -2,7 +2,7 @@ from pagamento import Pagamento
 from dinheiro import Dinheiro
 from pix import Pix
 from cartão import CartaoCredito
-from telaPagamento import TelaPagamento
+from telaPagamentoGUI import TelaPagamento
 
 
 class ControladorPagamento:
