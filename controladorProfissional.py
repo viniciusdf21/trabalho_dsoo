@@ -1,5 +1,5 @@
 from profissional import Profissional
-from telaProfissional import TelaProfissional
+from telaProfissionalGUI import TelaProfissional
 
 class ControladorProfissional:
     def __init__(self):
@@ -7,70 +7,69 @@ class ControladorProfissional:
         self.__tela = TelaProfissional()
 
     def cadastrar_profissional(self):
-        nome, cpf, celular, especialidade, registro = self.__tela.pegar_dados_profissional()
+        dados = self.__tela.pegar_dados_profissional()
+
+        if dados is None:
+            return
 
         try: 
-            profissional = Profissional(nome, cpf, celular, especialidade, registro)
+            profissional = Profissional(
+                dados["nome"],
+                dados["cpf"],
+                dados["celular"],
+                dados["especialidade"],
+                dados["registro"]
+            )
             self.__profissionais.append(profissional)
-            print('Profissional cadastrado com sucesso!')
+            self.__tela.mostrar_mensagem('Profissional cadastrado com sucesso!')
 
         except ValueError as erro:
-            print(erro)
+            self.__tela.mostrar_erro(str(erro))
 
     def listar_profissionais(self):
-        for profissional in self.__profissionais:
-            print("\n")
-            print(profissional.exibir_dados())
+        if not self.__profissionais:
+            self.__tela.mostrar_erro("Nenhum profissional cadastrado.")
+            return
+
+        self.__tela.mostrar_profissionais(self.__profissionais)
 
     def excluir_profissional(self):
-        cpf = input("CPF do profissional: ")
+        indice = self.__tela.selecionar_profissional(self.__profissionais)
 
-        for profissional in self.__profissionais:
-            if profissional.cpf == cpf:
-                self.__profissionais.remove(profissional)
-                print("Profissional removido com sucesso.")
-                return
+        if indice is None:
+            return
 
-        print("Profissional não encontrado.")
+        profissional = self.__profissionais[indice]
+            if self.__tela.confirmar_exclusao(profissional.nome):
+                self.__profissionais.pop(indice)
+                self.__tela.mostrar_mensagem("Profissional removido com sucesso.")
 
     def alterar_profissional(self):
-        cpf = input("CPF do profissional: ")
+        indice = self.__tela.selecionar_profissional(self.__profissionais)
 
-        for profissional in self.__profissionais:
-            if profissional.cpf == cpf:
+        if indice is None:
+            return
 
-                profissional.nome = input("Novo nome: ")
-                profissional.celular = input("Novo celular: ")
-                profissional.especialidade = input("Nova especialidade: ")
-                profissional.registro = input("Novo registro: ")
+        profissional = self.__profissionais[indice]
+        dados = self.__tela.alterar_profissional(profissional)
+        
+        if dados is None:
+            return
 
-                print("Profissional alterado com sucesso!")
-                return
+        profissional.nome = dados["nome"]
+        profissional.celular = dados["celular"]
+        profissional.especialidade = dados["especialidade"]
+        profissional.registro = dados["registro"]
 
-        print("Profissional não encontrado.")
+        self.__tela.mostrar_mensagem("Profissional alterado com sucesso!")
 
     def escolher_profissional(self):
-        if len(self.__profissionais) == 0:
-            print("Nenhum profissional cadastrado.")
+        indice = self.__tela.selecionar_profissional(self.__profissionais)
+
+        if indice is None:
             return None
 
-        print("\n=== ESCOLHER PROFISSIONAL ===")
-
-        for i, profissional in enumerate(self.__profissionais):
-            print(f"{i + 1} - {profissional.nome}")
-
-        try:
-            opcao = int(input("Escolha o profissional: "))
-
-            if opcao < 1 or opcao > len(self.__profissionais):
-                print("Opção inválida.")
-                return None
-
-            return self.__profissionais[opcao - 1]
-
-        except ValueError:
-            print("Digite um número válido.")
-            return None
+        return self.__profissionais[indice]
 
     def abrir_menu(self):
         while True:
