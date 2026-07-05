@@ -1,6 +1,6 @@
 from clinica import Clinica
 from datetime import time
-from telaClinica import TelaClinica
+from telaClinicaGUI import TelaClinica
 
 class ControladorClinica:
     def __init__(self):
@@ -8,79 +8,77 @@ class ControladorClinica:
         self.__tela = TelaClinica()
 
     def cadastrar_clinica(self):
-        nome, localizacao, descricao = self.__tela.pegar_dados_clinica()
+        dados = self.__tela.pegar_dados_clinica()
 
-        while True:
-            try:
-                ha, ma, hf, mf = self.__tela.pegar_horarios()
-                abertura = time(ha, ma)
-                fechamento = time(hf, mf)
+        if dados is None:
+            return
 
-                clinica = Clinica(nome, localizacao, descricao, abertura, fechamento)
-                self.__clinicas.append(clinica)
-                print("Clínica cadastrada com sucesso!")
-                break
+        try:
+            abertura = time(int(dados["ha"]), int(dados["ma"]))
+            fechamento = time(int(dados["hf"]), int(dados["mf"]))
+
+            clinica = Clinica(
+                dados["nome"],
+                dados["loc"],
+                dados["descricao"],
+                abertura,
+                fechamento
+            )
+            self.__clinicas.append(clinica)
+            self.__tela.mostrar_mensagem("Clínica cadastrada com sucesso!")
             
-            except ValueError:
-                print("Horário inválido. Tente novamente.")
+        except ValueError:
+            self.__tela.mostrar_erro("Horário inválido. Tente novamente.")
     
     def exibir_clinica(self):
         if not self.__clinicas:
-            print("Nenhuma clínica cadastrada.")
+            self.__tela.mostrar_erro("Nenhuma clínica cadastrada.")
             return
 
-        for clinica in self.__clinicas:
-            print("\n")
-            print(clinica.exibir_dados())
+        self.__tela.mostrar_clinicas(self.__clinicas)
 
     def excluir_clinica(self):
-        nome = input("Nome da clínica que deseja excluir: ")
+        indice = self.__tela.selecionar_clinica(self.__clinicas)
 
-        for clinica in self.__clinicas:
-            if clinica.nome == nome:
-                self.__clinicas.remove(clinica)
-                print("Clínica removida com sucesso!")
-                return
+        if indice is None:
+            return
 
-        print("Clínica não encontrada.")
+        clinica = self.__clinicas[indice]
+        if self.__tela.confirmar_exclusao(clinica.nome):
+            self.__clinicas.pop(indice)
+            self.__tela.mostrar_mensagem("Clínica removida com sucesso!")
     
     def alterar_clinica(self):
-        nome = input("Nome da clínica que deseja alterar: ")
+        indice = self.__tela.selecionar_clinica(self.__clinicas)
+        
+        if indice is None:
+            return
 
-        for clinica in self.__clinicas:
-            if clinica.nome == nome:
+        clinica = self.__clinicas[indice]
+        dados = self.__tela.alterar_dados_clinica(clinica)
 
-                clinica.nome = input("Novo nome: ")
-                clinica.loc = input("Nova localização: ")
-                clinica.descricao = input("Nova descrição: ")
-
-                print("Clínica alterada com sucesso!")
-                return
-
-        print("Clínica não encontrada.")
-
-    def escolher_clinica(self):
-        if len(self.__clinicas) == 0:
-            print("Nenhuma clínica cadastrada.")
-            return None
-
-        print("\n=== ESCOLHER CLÍNICA ===")
-
-        for i, clinica in enumerate(self.__clinicas):
-            print(f"{i + 1} - {clinica.nome}")
+        if dados is None:
+            return
 
         try:
-            opcao = int(input("Escolha a clínica: "))
 
-            if opcao < 1 or opcao > len(self.__clinicas):
-                print("Opção inválida.")
-                return None
-
-            return self.__clinicas[opcao - 1]
+            clinica.nome = dados["nome"]
+            clinica.loc = dados["loc"]
+            clinica.descricao = dados["descricao"]
+            clinica.horario_abertura = time(int(dados["ha"]), int(dados["ma"]))
+            clinica.horario_fechamento = time(int(dados["hf"]), int(dados["mf"]))
+            self.__tela.mostrar_mensagem("Clínica alterada com sucesso!")
 
         except ValueError:
-            print("Digite um número válido.")
+
+            self.__tela.mostrar_erro("Clínica não encontrada.")
+
+    def escolher_clinica(self):
+        indice = self.__tela.selecionar_clinica(self.__clinicas)
+
+        if indice is None:
             return None
+        return self.__clinicas[indice]
 
     def abrir_menu(self):
         while True:
@@ -94,10 +92,10 @@ class ControladorClinica:
                 self.exibir_clinica()
 
             elif opcao == "3":
-                self.excluir_clinica()
+                self.alterar_clinica()
 
             elif opcao == "4":
-                self.alterar_clinica()
+                self.excluir_clinica()
 
             elif opcao == "0":
                 break
