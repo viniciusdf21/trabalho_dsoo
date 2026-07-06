@@ -40,9 +40,9 @@ class ControladorProfissional:
             return
 
         profissional = self.__profissionais[indice]
-            if self.__tela.confirmar_exclusao(profissional.nome):
-                self.__profissionais.pop(indice)
-                self.__tela.mostrar_mensagem("Profissional removido com sucesso.")
+        if self.__tela.confirmar_exclusao(profissional.nome):
+            self.__profissionais.pop(indice)
+            self.__tela.mostrar_mensagem("Profissional removido com sucesso.")
 
     def alterar_profissional(self):
         indice = self.__tela.selecionar_profissional(self.__profissionais)
