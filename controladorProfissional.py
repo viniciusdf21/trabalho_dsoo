@@ -1,9 +1,10 @@
 from profissional import Profissional
 from telaProfissionalGUI import TelaProfissional
+from DAO.profissionalDAO import ProfissionalDAO
 
 class ControladorProfissional:
     def __init__(self):
-        self.__profissionais = []
+        self.__profissionaisDAO = ProfissionalDAO()
         self.__tela = TelaProfissional()
 
     def cadastrar_profissional(self):
@@ -20,51 +21,60 @@ class ControladorProfissional:
                 dados["especialidade"],
                 dados["registro"]
             )
-            self.__profissionais.append(profissional)
+            self.__profissionaisDAO.add(profissional.cpf, profissional)
             self.__tela.mostrar_mensagem('Profissional cadastrado com sucesso!')
 
         except ValueError as erro:
             self.__tela.mostrar_erro(str(erro))
 
     def listar_profissionais(self):
-        if not self.__profissionais:
+        profissionais = list(self.__profissionaisDAO.get_all())
+        if not profissionais:
             self.__tela.mostrar_erro("Nenhum profissional cadastrado.")
             return
 
-        self.__tela.mostrar_profissionais(self.__profissionais)
+        self.__tela.mostrar_profissionais(profissionais)
 
     def excluir_profissional(self):
+        profissionais = list(self.__profissionaisDAO.get_all())
         indice = self.__tela.selecionar_profissional(self.__profissionais)
 
         if indice is None:
             return
 
-        profissional = self.__profissionais[indice]
+        profissional = profissionais[indice]
         if self.__tela.confirmar_exclusao(profissional.nome):
-            self.__profissionais.pop(indice)
+            self.__profissionaisDAO.remove(profissional.cpf)
             self.__tela.mostrar_mensagem("Profissional removido com sucesso.")
 
     def alterar_profissional(self):
-        indice = self.__tela.selecionar_profissional(self.__profissionais)
+        profissionais = list(self.__profissionaisDAO.get_all())
+        indice = self.__tela.selecionar_profissional(profissionais)
 
         if indice is None:
             return
 
-        profissional = self.__profissionais[indice]
+        profissional = profissionais[indice]
         dados = self.__tela.alterar_profissional(profissional)
         
         if dados is None:
             return
 
-        profissional.nome = dados["nome"]
-        profissional.celular = dados["celular"]
-        profissional.especialidade = dados["especialidade"]
-        profissional.registro = dados["registro"]
+        try:
+            profissional.nome = dados["nome"]
+            profissional.celular = dados["celular"]
+            profissional.especialidade = dados["especialidade"]
+            profissional.registro = dados["registro"]
 
-        self.__tela.mostrar_mensagem("Profissional alterado com sucesso!")
+            self.__profissionaisDAO.update(profissional.cpf, profissional)
+            self.__tela.mostrar_mensagem("Profissional alterado com sucesso!")
+
+        except ValueError as erro:
+            self.__tela.mostrar_erro(str(erro))
 
     def escolher_profissional(self):
-        indice = self.__tela.selecionar_profissional(self.__profissionais)
+        profissionais = list(self.__profissionaisDAO.get_all())
+        indice = self.__tela.selecionar_profissional(profissionais)
 
         if indice is None:
             return None
