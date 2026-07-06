@@ -1,86 +1,85 @@
 from paciente import Paciente
 from datetime import date
-from telaPaciente import TelaPaciente
+from telaPacienteGUI import TelaPaciente
+from DAO.pacienteDAO import PacienteDAO
 
 
 class ControladorPaciente:
     def __init__(self):
-        self.__pacientes = []
+        self.__pacientesDAO = PacienteDAO()
         self.__tela = TelaPaciente()
 
     def cadastrar_paciente(self):
-        nome, cpf, celular = self.__tela.pegar_dados_paciente()
-
-        while True:
-            try:
-                ano, mes, dia = self.__tela.pegar_data_nascimento()
-        
-                data_nascimento = date(ano, mes, dia)
-                break
-
-            except ValueError: 
-                print("Data inválida. Tente Novamente.") 
+        dados = self.__tela.pegar_dados_paciente()
+        if dados is None:
+            return
 
         try:
-            paciente = Paciente(nome, cpf, celular, data_nascimento)
-            self.__pacientes.append(paciente)
-            print("Paciente cadastrado com sucesso!")
+            data = date(int(dados["ano"]), int(dados["mes"]), int(dados["dia"]))
+            paciente = Paciente(dados["nome"], dados["cpf"], dados["celular"], data)
 
-        except ValueError as erro:
-            print(erro)
+            self.__pacientesDAO.add(paciente)
+            self.__tela.mostrar_mensagem("Paciente cadastrado com sucesso!")
+
+        except ValueError: 
+            self.__tela.mostrar_erro("Data inválida. Tente Novamente.") 
 
     def listar_pacientes(self):
-        for paciente in self.__pacientes:
-            print("\n")
-            print(paciente.exibir_dados())
+        pacientes = list(self.__pacientesDAO.get_all())
+        if len(pacientes) == 0:
+            self.__tela.mostrar_erro("Nenhum paciente cadastrado.")
+            return
+
+        self.__tela.mostrar_pacientes(pacientes)
 
     def excluir_paciente(self):
-        cpf = self.__tela.pegar_cpf()
+        pacientes = list(self.__pacientesDAO.get_all())
+        indice = self.__tela.selecionar_paciente(pacientes)
+        if indice is None:
+            return
 
-        for paciente in self.__pacientes:
-            if paciente.cpf == cpf:
-                self.__pacientes.remove(paciente)
-                print("Paciente removido com sucesso.")
-                return
-        print("Paciente não encontrado.")
+        paciente = pacientes[indice]
+
+        if self.__tela.confirmar_exclusao(paciente.nome):
+            self.__pacientesDAO.remove(paciente)
+            self.__tela.mostrar_mensagem("Paciente removido com sucesso!")
 
     def alterar_paciente(self):
-        cpf = self.__tela.pegar_cpf()
+        pacientes = list(self.__pacientesDAO.get_all())
+        indice = self.__tela.selecionar_paciente(pacientes)
 
-        for paciente in self.__pacientes:
-            if paciente.cpf == cpf:
+        if indice is None:
+            return
 
-                nome, celular, = self.__tela.pegar_dados_alteracao()
-                paciente.nome = nome
-                paciente.celular = celular
+        paciente = pacientes[indice]
+        dados = self.__tela.alterar_dados_paciente(paciente)
 
-                print("Paciente alterado com sucesso!")
-                return
-
-        print("Paciente não encontrado.")
-
-    def escolher_paciente(self):
-        if len(self.__pacientes) == 0:
-            print("Nenhum paciente cadastrado.")
-            return None
-
-        print("\n=== ESCOLHER PACIENTE ===")
-
-        for i, paciente in enumerate(self.__pacientes):
-            print(f"{i + 1} - {paciente.nome}")
+        if dados is None:
+            return
 
         try:
-            opcao = int(input("Escolha o paciente: "))
+            paciente.nome = dados["nome"]
+            paciente.celular = dados["celular"]
+            paciente.data_nascimento = date(
+                int(dados["ano"]),
+                int(dados["mes"]),
+                int(dados["dia"])
+            )
 
-            if opcao < 1 or opcao > len(self.__pacientes):
-                print("Opção inválida.")
-                return None
-
-            return self.__pacientes[opcao - 1]
+            self.__pacientesDAO.update(paciente)
+            self.__tela.mostrar_mensagem("Paciente alterado com sucesso!")
 
         except ValueError:
-            print("Digite um número válido.")
+            self.__tela.mostrar_erro("Data inválida.")
+
+    def escolher_paciente(self):
+        pacientes = list(self.__pacientesDAO.get_all())
+        indice = self.__tela.selecionar_paciente(pacientes)
+
+        if indice is None:
             return None
+
+        return pacientes[indice]
 
     def abrir_menu(self):
         while True:
@@ -94,10 +93,10 @@ class ControladorPaciente:
                 self.listar_pacientes()
 
             elif opcao == "3":
-                self.excluir_paciente()
+                self.alterar_paciente()
 
             elif opcao == "4":
-                self.alterar_paciente()
+                self.excluirr_paciente()
 
             elif opcao == "0":
                 break
