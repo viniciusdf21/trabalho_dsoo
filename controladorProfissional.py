@@ -21,7 +21,7 @@ class ControladorProfissional:
                 dados["especialidade"],
                 dados["registro"]
             )
-            self.__profissionaisDAO.add(profissional.cpf, profissional)
+            self.__profissionaisDAO.add(profissional)
             self.__tela.mostrar_mensagem('Profissional cadastrado com sucesso!')
 
         except ValueError as erro:
@@ -44,7 +44,7 @@ class ControladorProfissional:
 
         profissional = profissionais[indice]
         if self.__tela.confirmar_exclusao(profissional.nome):
-            self.__profissionaisDAO.remove(profissional.cpf)
+            self.__profissionaisDAO.remove(profissional)
             self.__tela.mostrar_mensagem("Profissional removido com sucesso.")
 
     def alterar_profissional(self):
@@ -66,7 +66,7 @@ class ControladorProfissional:
             profissional.especialidade = dados["especialidade"]
             profissional.registro = dados["registro"]
 
-            self.__profissionaisDAO.update(profissional.cpf, profissional)
+            self.__profissionaisDAO.update(profissional)
             self.__tela.mostrar_mensagem("Profissional alterado com sucesso!")
 
         except ValueError as erro:
