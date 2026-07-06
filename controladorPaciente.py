@@ -96,7 +96,7 @@ class ControladorPaciente:
                 self.alterar_paciente()
 
             elif opcao == "4":
-                self.excluirr_paciente()
+                self.excluir_paciente()
 
             elif opcao == "0":
                 break
