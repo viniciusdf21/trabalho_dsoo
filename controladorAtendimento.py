@@ -4,12 +4,12 @@ from telaAtendimentoGUI import TelaAtendimento
 
 class ControladorAtendimento:
     def __init__(self):
-        self.__atendimentos = []
+        self.__atendimento_DAO = AtendimentoDAO()
         self.__tela_atendimento = TelaAtendimento()
 
     @property
     def atendimentos(self):
-        return self.__atendimentos
+        return list(self.__atendimento_DAO.get_all())
 
     def cadastrar_atendimento(self, controlador_clinica, controlador_paciente, controlador_profissional, controlador_tipo_atendimento):
         try:
@@ -37,7 +37,7 @@ class ControladorAtendimento:
             atendimento = Atendimento(clinica, paciente, profissional, data_atendimento, horario_inicio, horario_fim, tipo_atendimento, valor)
 
             atendimento.validar_atendimento()
-            self.__atendimentos.append(atendimento)
+            self.__atendimento_DAO.add(atendimento)
 
             self.__tela_atendimento.mostrar_mensagem(
                 "Atendimento cadastrado com sucesso."
@@ -47,10 +47,13 @@ class ControladorAtendimento:
             self.__tela_atendimento.mostrar_erro_cadastro(erro)
 
     def listar_atendimentos(self):
-        self.__tela_atendimento.mostrar_atendimentos(self.__atendimentos)
+        self.__tela_atendimento.mostrar_atendimentos(list(self.__atendimento_DAO.get_all()))
 
     def escolher_atendimento(self):
-        return self.__tela_atendimento.escolher_atendimento(self.__atendimentos)
+        return self.__tela_atendimento.escolher_atendimento(list(self.__atendimento_DAO.get_all()))
+
+    def atualizar_atendimento(self, atendimento):
+        self.__atendimento_DAO.update(atendimento)
 
     def alterar_atendimento(self, controlador_clinica, controlador_paciente, controlador_profissional, controlador_tipo_atendimento):
         atendimento = self.escolher_atendimento()
@@ -92,6 +95,7 @@ class ControladorAtendimento:
             atendimento.valor = novo_valor
 
             atendimento.validar_atendimento()
+            atendimento.__atendimento_DAO.update(atendimento)
 
             self.__tela_atendimento.mostrar_mensagem("Atendimento alterado com sucesso.")
 
@@ -105,7 +109,7 @@ class ControladorAtendimento:
             return
 
         if self.__tela_atendimento.confirmar_exclusao():
-            self.__atendimentos.remove(atendimento)
+            self.__atendimento_DAO.remove(atendimento)
             self.__tela_atendimento.mostrar_mensagem("Atendimento excluído com sucesso.")
         else:
             self.__tela_atendimento.mostrar_mensagem("Exclusão cancelada.")

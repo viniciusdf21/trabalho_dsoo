@@ -7,9 +7,10 @@ class ControladorProcedimento:
         self.__tela_procedimento = TelaProcedimento()
 
 
-    def registrar_procedimento(self, atendimento, procedimento: Procedimento):
+    def registrar_procedimento(self, atendimento, procedimento: Procedimento, controlador_atendimento):
         try:
             atendimento.adicionar_procedimento(procedimento)
+            controlador_atendimento.atualizar_atendimento(atendimento)
             self.__tela_procedimento.mostrar_mensagem("Procedimento registrado com sucesso.")
             return procedimento
 
@@ -18,13 +19,13 @@ class ControladorProcedimento:
             return None
 
 
-    def cadastrar_procedimento(self, atendimento):
+    def cadastrar_procedimento(self, atendimento, controlador_atendimento):
         try:
             nome = self.__tela_procedimento.ler_nome()
             descricao = self.__tela_procedimento.ler_descricao()
             custo = self.__tela_procedimento.ler_custo()
             procedimento = Procedimento(nome, descricao, custo, atendimento.profissional)
-            self.registrar_procedimento(atendimento, procedimento)
+            self.registrar_procedimento(atendimento, procedimento, controlador_atendimento)
 
         except ValueError as erro:
             self.__tela_procedimento.mostrar_erro_cadastro(erro)
@@ -38,7 +39,7 @@ class ControladorProcedimento:
         return self.__tela_procedimento.escolher_procedimento(atendimento)
 
 
-    def alterar_procedimento(self, atendimento):
+    def alterar_procedimento(self, atendimento, controlador_atendimento):
         procedimento = self.escolher_procedimento(atendimento)
 
         if procedimento is None:
@@ -55,19 +56,21 @@ class ControladorProcedimento:
             procedimento.descricao = nova_descricao
             procedimento.custo = novo_custo
 
+            controlador_atendimento.atualizar_atendimento(atendimento)
             self.__tela_procedimento.mostrar_mensagem("Procedimento alterado com sucesso.")
 
         except ValueError as erro:
             self.__tela_procedimento.mostrar_erro_alteracao(erro)
 
 
-    def excluir_procedimento(self, atendimento):
+    def excluir_procedimento(self, atendimento, controlador_atendimento):
         procedimento = self.escolher_procedimento(atendimento)
 
         if procedimento is None:
             return
 
         atendimento.lista_procedimentos.remove(procedimento)
+        controlador_atendimento.atualizar_atendimento(atendimento)
 
         self.__tela_procedimento.mostrar_mensagem("Procedimento excluído com sucesso.")
 
@@ -80,7 +83,7 @@ class ControladorProcedimento:
                 atendimento = controlador_atendimento.escolher_atendimento()
 
                 if atendimento is not None:
-                    self.cadastrar_procedimento(atendimento)
+                    self.cadastrar_procedimento(atendimento, controlador_atendimento)
 
             elif opcao == "2":
                 atendimento = controlador_atendimento.escolher_atendimento()
@@ -92,13 +95,13 @@ class ControladorProcedimento:
                 atendimento = controlador_atendimento.escolher_atendimento()
 
                 if atendimento is not None:
-                    self.alterar_procedimento(atendimento)
+                    self.alterar_procedimento(atendimento, controlador_atendimento)
 
             elif opcao == "4":
                 atendimento = controlador_atendimento.escolher_atendimento()
 
                 if atendimento is not None:
-                    self.excluir_procedimento(atendimento)
+                    self.excluir_procedimento(atendimento, controlador_atendimento)
 
             elif opcao == "0":
                 break

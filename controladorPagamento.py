@@ -10,10 +10,12 @@ class ControladorPagamento:
         self.__tela_pagamento = TelaPagamento()
 
 
-    def registrar_pagamento(self, pagamento: Pagamento):
+    def registrar_pagamento(self, pagamento: Pagamento, controlador_atendimento):
         try:
             pagamento.registrar_pagamento()
             pagamento.atendimento.adicionar_pagamento(pagamento)
+
+            controlador_atendimento.atualizar_atendimento(pagamento.atendimento)
 
             self.__tela_pagamento.mostrar_mensagem("Pagamento registrado com sucesso.")
 
@@ -21,7 +23,7 @@ class ControladorPagamento:
             self.__tela_pagamento.mostrar_erro_registro(erro)
 
 
-    def cadastrar_pagamento(self, atendimento):
+    def cadastrar_pagamento(self, atendimento, controlador_atendimento):
         try:
             data_pagamento = self.__tela_pagamento.ler_data_pagamento()
             valor_pago = self.__tela_pagamento.ler_valor_pago()
@@ -48,7 +50,7 @@ class ControladorPagamento:
                 self.__tela_pagamento.mostrar_mensagem("Opção inválida.")
                 return
 
-            self.registrar_pagamento(pagamento)
+            self.registrar_pagamento(pagamento, controlador_atendimento)
 
         except ValueError as erro:
             self.__tela_pagamento.mostrar_erro_cadastro(erro)
@@ -62,7 +64,7 @@ class ControladorPagamento:
         return self.__tela_pagamento.escolher_pagamento(atendimento)
 
 
-    def alterar_pagamento(self, atendimento):
+    def alterar_pagamento(self, atendimento, controlador_atendimento):
         pagamento = self.escolher_pagamento(atendimento)
 
         if pagamento is None:
@@ -89,6 +91,7 @@ class ControladorPagamento:
                 pagamento.bandeira = nova_bandeira
 
             pagamento.registrar_pagamento()
+            controlador_atendimento.atualizar_atendimento(atendimento)
 
             self.__tela_pagamento.mostrar_mensagem("Pagamento alterado com sucesso.")
 
@@ -96,13 +99,14 @@ class ControladorPagamento:
             self.__tela_pagamento.mostrar_erro_alteracao(erro)
 
 
-    def excluir_pagamento(self, atendimento):
+    def excluir_pagamento(self, atendimento, controlador_atendimento):
         pagamento = self.escolher_pagamento(atendimento)
 
         if pagamento is None:
             return
 
         atendimento.lista_pagamentos.remove(pagamento)
+        controlador_atendimento.atualizar_atendimento(atendimento)
 
         self.__tela_pagamento.mostrar_mensagem("Pagamento excluído com sucesso.")
 
@@ -115,7 +119,7 @@ class ControladorPagamento:
                 atendimento = controlador_atendimento.escolher_atendimento()
 
                 if atendimento is not None:
-                    self.cadastrar_pagamento(atendimento)
+                    self.cadastrar_pagamento(atendimento, controlador_atendimento)
 
             elif opcao == "2":
                 atendimento = controlador_atendimento.escolher_atendimento()
@@ -127,13 +131,13 @@ class ControladorPagamento:
                 atendimento = controlador_atendimento.escolher_atendimento()
 
                 if atendimento is not None:
-                    self.alterar_pagamento(atendimento)
+                    self.alterar_pagamento(atendimento, controlador_atendimento)
 
             elif opcao == "4":
                 atendimento = controlador_atendimento.escolher_atendimento()
 
                 if atendimento is not None:
-                    self.excluir_pagamento(atendimento)
+                    self.excluir_pagamento(atendimento, controlador_atendimento)
 
             elif opcao == "0":
                 break
