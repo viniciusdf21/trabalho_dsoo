@@ -60,10 +60,6 @@ class ControladorPaciente:
         try:
             paciente.nome = dados["nome"]
             paciente.celular = dados["celular"]
-            paciente.data_nascimento = date(
-                int(dados["ano"]),
-                int(dados["mes"]),
-                int(dados["dia"])
             )
 
             self.__pacientesDAO.update(paciente)
