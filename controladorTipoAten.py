@@ -23,7 +23,7 @@ class ControladorTipoAtendimentos:
 
     def listar_tipos_atendimento(self):
         tipos = list(self.__tiposDAO.get_all())
-        if not self.__tipos_atendimento:
+        if not tipos:
             self.__tela.mostrar_erro("Nenhum tipo de atendimento cadastrado.")
             return
 
