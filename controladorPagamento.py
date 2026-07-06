@@ -144,4 +144,3 @@ class ControladorPagamento:
 
             else:
                 self.__tela_pagamento.mostrar_mensagem("Opção inválida.")
-

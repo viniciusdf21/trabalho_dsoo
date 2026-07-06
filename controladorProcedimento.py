@@ -57,6 +57,7 @@ class ControladorProcedimento:
             procedimento.custo = novo_custo
 
             controlador_atendimento.atualizar_atendimento(atendimento)
+
             self.__tela_procedimento.mostrar_mensagem("Procedimento alterado com sucesso.")
 
         except ValueError as erro:

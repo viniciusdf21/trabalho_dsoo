@@ -1,5 +1,6 @@
 from atendimento import Atendimento
 from telaAtendimentoGUI import TelaAtendimento
+from DAO.atendimentoDAO import AtendimentoDAO
 
 
 class ControladorAtendimento:
@@ -95,7 +96,7 @@ class ControladorAtendimento:
             atendimento.valor = novo_valor
 
             atendimento.validar_atendimento()
-            atendimento.__atendimento_DAO.update(atendimento)
+            self.__atendimento_DAO.update(atendimento)
 
             self.__tela_atendimento.mostrar_mensagem("Atendimento alterado com sucesso.")
 
