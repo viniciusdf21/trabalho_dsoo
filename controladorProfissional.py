@@ -37,7 +37,7 @@ class ControladorProfissional:
 
     def excluir_profissional(self):
         profissionais = list(self.__profissionaisDAO.get_all())
-        indice = self.__tela.selecionar_profissional(self.__profissionais)
+        indice = self.__tela.selecionar_profissional(profissionais)
 
         if indice is None:
             return
