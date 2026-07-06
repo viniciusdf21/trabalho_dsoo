@@ -5,14 +5,15 @@ class TelaProcedimento:
     def __init__(self):
         self.__window = None
 
+
     def mostrar_menu(self):
         layout = [
             [sg.Text("PROCEDIMENTOS")],
-            [sg.Button("Registrar", key="1")],
-            [sg.Button("Listar", key="2")],
-            [sg.Button("Alterar", key="3")],
-            [sg.Button("Excluir", key="4")],
-            [sg.Button("Voltar", key="0")]
+            [sg.Button("Registrar", key="1", size=(25, 2))],
+            [sg.Button("Listar", key="2", size=(25, 2))],
+            [sg.Button("Alterar", key="3", size=(25, 2))],
+            [sg.Button("Excluir", key="4", size=(25, 2))],
+            [sg.Button("Voltar", key="0", size=(25, 2))]
         ]
 
         self.__window = sg.Window("Menu Procedimentos", layout)
@@ -23,6 +24,7 @@ class TelaProcedimento:
             return "0"
 
         return evento
+
 
     def ler_nome(self):
         nome = sg.popup_get_text("Nome do procedimento:")
@@ -37,6 +39,7 @@ class TelaProcedimento:
 
         return nome
 
+
     def ler_descricao(self):
         descricao = sg.popup_get_text("Descrição do procedimento:")
 
@@ -49,6 +52,7 @@ class TelaProcedimento:
             raise ValueError("A descrição do procedimento não pode ser vazia.")
 
         return descricao
+
 
     def ler_custo(self):
         custo = sg.popup_get_text("Custo do procedimento:")
@@ -101,7 +105,7 @@ class TelaProcedimento:
         layout = [
             [sg.Text("Escolha um procedimento:")],
             [sg.Listbox(opcoes, size=(50, 8), key="procedimento")],
-            [sg.Button("Selecionar"), sg.Button("Cancelar")]
+            [sg.Button("Selecionar", size=(15, 1)), sg.Button("Cancelar", size=(15, 1))]
         ]
 
         self.__window = sg.Window("Escolher Procedimento", layout)

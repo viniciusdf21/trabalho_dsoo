@@ -6,14 +6,15 @@ class TelaPagamento:
     def __init__(self):
         self.__window = None
 
+
     def mostrar_menu(self):
         layout = [
             [sg.Text("PAGAMENTOS")],
-            [sg.Button("Registrar", key="1")],
-            [sg.Button("Listar", key="2")],
-            [sg.Button("Alterar", key="3")],
-            [sg.Button("Excluir", key="4")],
-            [sg.Button("Voltar", key="0")]
+            [sg.Button("Registrar", key="1", size=(25, 2))],
+            [sg.Button("Listar", key="2", size=(25, 2))],
+            [sg.Button("Alterar", key="3", size=(25, 2))],
+            [sg.Button("Excluir", key="4", size=(25, 2))],
+            [sg.Button("Voltar", key="0", size=(25, 2))]
         ]
 
         self.__window = sg.Window("Menu Pagamentos", layout)
@@ -25,13 +26,14 @@ class TelaPagamento:
 
         return evento
 
+
     def mostrar_menu_tipo_pagamento(self):
         layout = [
             [sg.Text("TIPO DE PAGAMENTO")],
-            [sg.Button("Dinheiro", key="1")],
-            [sg.Button("Pix", key="2")],
-            [sg.Button("Cartão de crédito", key="3")],
-            [sg.Button("Cancelar", key="0")]
+            [sg.Button("Dinheiro", key="1", size=(25, 2))],
+            [sg.Button("Pix", key="2", size=(25, 2))],
+            [sg.Button("Cartão de crédito", key="3", size=(25, 2))],
+            [sg.Button("Cancelar", key="0", size=(25, 2))]
         ]
 
         self.__window = sg.Window("Tipo de Pagamento", layout)
@@ -43,19 +45,33 @@ class TelaPagamento:
 
         return evento
 
-    def ler_data_pagamento(self):
-        dia = sg.popup_get_text("Dia do pagamento:")
-        mes = sg.popup_get_text("Mês do pagamento:")
-        ano = sg.popup_get_text("Ano do pagamento:")
 
-        if dia is None or mes is None or ano is None:
+    def ler_data_pagamento(self):
+        layout = [
+            [sg.Text("DATA DO PAGAMENTO")],
+            [sg.Text("Dia:"), sg.Input(key="dia", size=(10, 1))],
+            [sg.Text("Mês:"), sg.Input(key="mes", size=(10, 1))],
+            [sg.Text("Ano:"), sg.Input(key="ano", size=(10, 1))],
+            [sg.Button("Confirmar"), sg.Button("Cancelar")]
+        ]
+
+        self.__window = sg.Window("Data do Pagamento", layout)
+        evento, valores = self.__window.read()
+        self.__window.close()
+
+        if evento in (sg.WINDOW_CLOSED, "Cancelar"):
             raise ValueError("Operação cancelada.")
 
         try:
-            return date(int(ano), int(mes), int(dia))
+            dia = int(valores["dia"])
+            mes = int(valores["mes"])
+            ano = int(valores["ano"])
+
+            return date(ano, mes, dia)
 
         except ValueError:
             raise ValueError("Data inválida.")
+
 
     def ler_valor_pago(self):
         valor = sg.popup_get_text("Valor pago:")
@@ -74,6 +90,7 @@ class TelaPagamento:
         except ValueError:
             raise ValueError("Valor inválido.")
 
+
     def ler_cpf_pagante(self):
         cpf = sg.popup_get_text("CPF do pagante:")
 
@@ -87,6 +104,7 @@ class TelaPagamento:
 
         return cpf
 
+
     def ler_numero_cartao(self):
         numero = sg.popup_get_text("Número do cartão:")
 
@@ -99,6 +117,7 @@ class TelaPagamento:
             raise ValueError("O número do cartão não pode ser vazio.")
 
         return numero
+
 
     def ler_bandeira(self):
         bandeira = sg.popup_get_text("Bandeira do cartão:")
@@ -156,7 +175,7 @@ class TelaPagamento:
         layout = [
             [sg.Text("Escolha um pagamento:")],
             [sg.Listbox(opcoes, size=(50, 8), key="pagamento")],
-            [sg.Button("Selecionar"), sg.Button("Cancelar")]
+            [sg.Button("Selecionar", size=(15, 1)), sg.Button("Cancelar", size=(15, 1))]
         ]
 
         self.__window = sg.Window("Escolher Pagamento", layout)
