@@ -5,7 +5,7 @@ from DAO.clinicaDAO import ClinicaDAO
 
 class ControladorClinica:
     def __init__(self):
-        self.__clinicasDAO = clinicasDAO()
+        self.__clinicasDAO = ClinicaDAO()
         self.__tela = TelaClinica()
 
     def cadastrar_clinica(self):
