@@ -6,7 +6,7 @@ from controladorAtendimento import ControladorAtendimento
 from controladorPagamento import ControladorPagamento
 from controladorProcedimento import ControladorProcedimento
 from controladorRelatorio import ControladorRelatorio
-from telaPrincipal import TelaPrincipal
+from telaPrincipalGUI import TelaPrincipal
 
 class ControladorPrincipal:
 
