@@ -10,7 +10,7 @@ class ControladorPaciente:
         self.__tela = TelaPaciente()
 
     def cadastrar_paciente(self):
-        dados = self.__tela.alterar_paciente()
+        dados = self.__tela.pegar_dados_paciente()
         if dados is None:
             return
 
