@@ -25,7 +25,7 @@ class TelaRelatorio:
 
     def mostrar_relatorio_atendimento_mais_caro_barato(self, atendimento_mais_caro, atendimento_mais_barato):
         texto = "=== ATENDIMENTO MAIS CARO ===\n\n"
-        texto += atendimento_mais_caro.exibir_dados()s
+        texto += atendimento_mais_caro.exibir_dados()
 
         texto += "\n\n-----------------------------\n\n"
 
