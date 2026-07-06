@@ -1,4 +1,4 @@
-from dao import DAO
+from DAO.dao import DAO
 from tipoAtendimento import TipoAtendimento
 
 
