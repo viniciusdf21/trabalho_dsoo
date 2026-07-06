@@ -52,7 +52,7 @@ class ControladorPaciente:
             return
 
         paciente = pacientes[indice]
-        dados = self.__tela.alterar_dados_paciente(paciente)
+        dados = self.__tela.alterar_paciente(paciente)
 
         if dados is None:
             return
