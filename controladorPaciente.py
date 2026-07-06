@@ -60,7 +60,6 @@ class ControladorPaciente:
         try:
             paciente.nome = dados["nome"]
             paciente.celular = dados["celular"]
-            )
 
             self.__pacientesDAO.update(paciente)
             self.__tela.mostrar_mensagem("Paciente alterado com sucesso!")
