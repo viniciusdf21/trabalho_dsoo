@@ -30,7 +30,8 @@ class ControladorTipoAtendimentos:
         self.__tela.mostrar_tipos_atendimento(tipos)
 
     def excluir_tipo_atendimento(self):
-        indice = self.__tela.selecionar_tipo(self.__tipos_atendimento)
+        tipos = list(self.__tiposDAO.get_all())
+        indice = self.__tela.selecionar_tipo(tipos)
 
         if indice is None:
             return
