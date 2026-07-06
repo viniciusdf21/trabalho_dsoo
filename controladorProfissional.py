@@ -79,7 +79,7 @@ class ControladorProfissional:
         if indice is None:
             return None
 
-        return self.__profissionais[indice]
+        return profissionais[indice]
 
     def abrir_menu(self):
         while True:
