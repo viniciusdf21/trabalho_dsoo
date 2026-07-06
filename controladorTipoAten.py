@@ -1,5 +1,5 @@
 from tipoAtendimento import TipoAtendimento
-from telaTipoAtendimento import TelaTipoAtendimento
+from telaTipoAtendimentoGUI import TelaTipoAtendimento
 
 class ControladorTipoAtendimentos:
     def __init__(self):
@@ -7,85 +7,67 @@ class ControladorTipoAtendimentos:
         self.__tela = TelaTipoAtendimento()
 
     def cadastrar_tipo_atendimento(self):
-        nome, descricao = self.__tela.pegar_dados_tipo()
+        dados = self.__tela.pegar_dados_tipo()
 
-        while True:
-            try:
-                valor_base = float(input("Valor base: R$ "))
-                break
+        if dados is None:
+            return
 
-            except ValueError: 
-                print("Digite um valor numérico válido")
+        try:
+            tipo = TipoAtendimento(dados["nome"], dados["descricao"], float(dados["valor"]))
+            self.__tipos_atendimento.append(tipo)
+            self.__tela.mostrar_mensagem("Tipo de atendimento cadastrado com sucesso!")
 
-        tipo = TipoAtendimento(nome, descricao, valor_base)
-        self.__tipos_atendimento.append(tipo)
-
-        print("Tipo de atendimento cadastrado com sucesso!")
+        except ValueError: 
+            self.__tela.mostrar_erro("Digite um valor numérico válido")
 
     def listar_tipos_atendimento(self):
         if not self.__tipos_atendimento:
-            print("Nenhum tipo de atendimento cadastrado.")
+            self.__tela.mostrar_erro("Nenhum tipo de atendimento cadastrado.")
             return
 
-        for tipo in self.__tipos_atendimento:
-            print("\n------------------")
-            print(tipo.exibir_dados())
+        self.__tela.mostrar_tipos_atendimento(self.__tipos_atendimento)
 
     def excluir_tipo_atendimento(self):
-        nome = input("Nome do tipo de atendimento: ")
+        indice = self.__tela.selecionar_tipo(self.__tipos_atendimento)
 
-        for tipo in self.__tipos_atendimento:
-            if tipo.nome == nome:
-                self.__tipos_atendimento.remove(tipo)
-                print("Tipo de atendimento removido com sucesso!")
-                return
+        if indice is None:
+            return
 
-        print("Tipo de atendimento não encontrado.")
+        tipo = self.__tipos_atendimento[indice]
         
+        if self.__tela.confirmar_exclusao(tipo.nome):
+            self.__tipos_atendimento.pop(indice)
+            self.__tela.mostrar_mensagem("Tipo de atendimento removido com sucesso!")
+            
     def alterar_tipo_atendimento(self):
-        nome = input("Nome do tipo de atendimento: ")
+        indice = self.__tela.selecionar_tipo(self.__tipos_atendimento)
 
-        for tipo in self.__tipos_atendimento:
-            if tipo.nome == nome:
+        if indice is None:
+            return
 
-                tipo.nome = input("Novo nome: ")
-                tipo.descricao = input("Nova descrição: ")
+        tipo = self.__tipos_atendimento[indice]
+        dados = self.__tela.alterar_tipo(tipo)
 
-                while True:
-                    try:
-                        tipo.valor_base = float(input("Novo valor base: R$ "))
-                        break
-
-                    except ValueError:
-                        print("Digite um valor numérico válido.")
-
-                print("Tipo de atendimento alterado com sucesso!")
-                return
-
-        print("Tipo de atendimento não encontrado.")
-        
-    def escolher_tipo_atendimento(self):
-        if len(self.__tipos_atendimento) == 0:
-            print("Nenhum tipo de atendimento cadastrado.")
-            return None
-
-        print("\n=== ESCOLHER TIPO DE ATENDIMENTO ===")
-
-        for i, tipo_atendimento in enumerate(self.__tipos_atendimento):
-            print(f"{i + 1} - {tipo_atendimento.nome}")
+        if dados is None:
+            return
 
         try:
-            opcao = int(input("Escolha o tipo de atendimento: "))
-
-            if opcao < 1 or opcao > len(self.__tipos_atendimento):
-                print("Opção inválida.")
-                return None
-
-            return self.__tipos_atendimento[opcao - 1]
+            tipo.nome = dados["nome"]
+            tipo.descricao = dados["descricao"]
+            tipo.valor_base = float(dados["valor"])
+            self.__tela.mostrar_mensagem("Tipo de atendimento alterado com sucesso!")
 
         except ValueError:
-            print("Digite um número válido.")
+            self.__tela.mostrar_erro("Valor inválido.")
+
+        
+    def escolher_tipo_atendimento(self):
+        indice = self.__tela.selecionar_tipo(self.__tipos_atendimento)
+
+        if indice is None:
             return None
+
+        return self.__tipos_atendimento[indice]
 
     def abrir_menu(self):
         while True:
