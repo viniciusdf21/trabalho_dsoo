@@ -1,7 +1,7 @@
 from clinica import Clinica
 from datetime import time
 from telaClinicaGUI import TelaClinica
-from clinicaDAO import ClinicaDAO
+from DAO.clinicaDAO import ClinicaDAO
 
 class ControladorClinica:
     def __init__(self):
