@@ -109,11 +109,8 @@ class ControladorAtendimento:
         if atendimento is None:
             return
 
-        if self.__tela_atendimento.confirmar_exclusao():
-            self.__atendimento_DAO.remove(atendimento)
-            self.__tela_atendimento.mostrar_mensagem("Atendimento excluído com sucesso.")
-        else:
-            self.__tela_atendimento.mostrar_mensagem("Exclusão cancelada.")
+        self.__atendimento_DAO.remove(atendimento)
+        self.__tela_atendimento.mostrar_mensagem("Atendimento excluído com sucesso.")
 
     def abrir_menu(self, controlador_clinica, controlador_paciente, controlador_profissional, controlador_tipo_atendimento):
         while True:

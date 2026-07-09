@@ -5,7 +5,6 @@ import FreeSimpleGUI as sg
 class TelaAtendimento:
     def __init__(self):
         self.__window = None
-        self.__horario_fim = None
 
 
     def mostrar_menu(self):
@@ -29,74 +28,46 @@ class TelaAtendimento:
 
 
     def ler_data_atendimento(self):
-        layout = [
-            [sg.Text("DATA DO ATENDIMENTO")],
-            [sg.Text("Dia:"), sg.Input(key="dia", size=(10, 1))],
-            [sg.Text("Mês:"), sg.Input(key="mes", size=(10, 1))],
-            [sg.Text("Ano:"), sg.Input(key="ano", size=(10, 1))],
-            [sg.Button("Confirmar"), sg.Button("Cancelar")]
-        ]
+        dia = sg.popup_get_text("Dia do atendimento:")
+        mes = sg.popup_get_text("Mês do atendimento:")
+        ano = sg.popup_get_text("Ano do atendimento:")
 
-        self.__window = sg.Window("Data do Atendimento", layout)
-        evento, valores = self.__window.read()
-        self.__window.close()
-
-        if evento in (sg.WINDOW_CLOSED, "Cancelar"):
+        if dia is None or mes is None or ano is None:
             raise ValueError("Operação cancelada.")
 
         try:
-            dia = int(valores["dia"])
-            mes = int(valores["mes"])
-            ano = int(valores["ano"])
-
-            return date(ano, mes, dia)
+            return date(int(ano), int(mes), int(dia))
 
         except ValueError:
             raise ValueError("Data inválida.")
 
 
     def ler_horario_inicio(self):
-        layout = [
-            [sg.Text("HORÁRIO DO ATENDIMENTO")],
-            [sg.Text("Hora de início:"), sg.Input(key="hora_inicio", size=(10, 1))],
-            [sg.Text("Minuto de início:"), sg.Input(key="minuto_inicio", size=(10, 1))],
-            [sg.Text("Hora de fim:"), sg.Input(key="hora_fim", size=(10, 1))],
-            [sg.Text("Minuto de fim:"), sg.Input(key="minuto_fim", size=(10, 1))],
-            [sg.Button("Confirmar"), sg.Button("Cancelar")]
-        ]
+        hora = sg.popup_get_text("Hora de início:")
+        minuto = sg.popup_get_text("Minuto de início:")
 
-        self.__window = sg.Window("Horário do Atendimento", layout)
-        evento, valores = self.__window.read()
-        self.__window.close()
-
-        if evento in (sg.WINDOW_CLOSED, "Cancelar"):
+        if hora is None or minuto is None:
             raise ValueError("Operação cancelada.")
 
         try:
-            horario_inicio = time(
-                int(valores["hora_inicio"]),
-                int(valores["minuto_inicio"])
-            )
-
-            self.__horario_fim = time(
-                int(valores["hora_fim"]),
-                int(valores["minuto_fim"])
-            )
-
-            return horario_inicio
+            return time(int(hora), int(minuto))
 
         except ValueError:
-            raise ValueError("Horário inválido.")
+            raise ValueError("Horário de início inválido.")
 
 
     def ler_horario_fim(self):
-        if self.__horario_fim is None:
-            raise ValueError("Horário de fim não informado.")
+        hora = sg.popup_get_text("Hora de fim:")
+        minuto = sg.popup_get_text("Minuto de fim:")
 
-        horario_fim = self.__horario_fim
-        self.__horario_fim = None
+        if hora is None or minuto is None:
+            raise ValueError("Operação cancelada.")
 
-        return horario_fim
+        try:
+            return time(int(hora), int(minuto))
+
+        except ValueError:
+            raise ValueError("Horário de fim inválido.")
 
 
     def ler_valor(self):
@@ -209,11 +180,6 @@ class TelaAtendimento:
         indice = opcoes.index(escolhido)
 
         return atendimentos[indice]
-
-    def confirmar_exclusao(self):
-        resposta = sg.popup_yes_no("Deseja realmente excluir este atendimento?")
-
-        return resposta == "Yes"
 
     def mostrar_mensagem(self, mensagem):
         sg.popup(mensagem)
