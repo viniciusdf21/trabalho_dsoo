@@ -22,7 +22,7 @@ class ControladorPaciente:
             self.__tela.mostrar_mensagem("Paciente cadastrado com sucesso!")
 
         except ValueError: 
-            self.__tela.mostrar_erro("Data inválida. Tente Novamente.") 
+            self.__tela.mostrar_erro("Dados inválidos. Tente Novamente.") 
 
     def listar_pacientes(self):
         pacientes = list(self.__pacientesDAO.get_all())
