@@ -31,12 +31,6 @@ class DAO(ABC):
         except KeyError:
             pass
 
-    def get(self, key):
-        try:
-            return self.__cache[key]
-        except KeyError:
-            return None
-
     def remove(self, key):
         try:
             self.__cache.pop(key)
