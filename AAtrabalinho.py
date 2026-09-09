@@ -53,21 +53,21 @@ class Lista:
 
 
 
-    def inserirAntesDe(self, posicao, novo): #insere um elemento antes de outro elemento da lista
+    def inserirAntesDe(self, referencia, novo): #insere um elemento antes de outro elemento da lista
         atual = self.__inicio
 
-        if atual == None:
+        if atual == None: #se a lista estiver vazia, não é possível inserir antes de um elemento
             raise Exception("Lista vazia")
 
-        if atual == posicao:
+        if atual == referencia: #se a referência for o primeiro elemento, o novo elemento será inserido como primeiro
             self.inserirComoPrimeiro(novo)
             return
 
-        while posicao != atual.pegaProx() and atual.pegaProx() != None:
+        while referencia != atual.pegaProx() and atual.pegaProx() != None: #percorre a lista até encontrar a referência ou chegar ao final da lista
             atual = atual.pegaProx()
 
-        if atual.pegaProx() == None:
-            raise Exception("Posição inválida")
+        if atual.pegaProx() == None: #se a referência não for encontrada na lista, lança uma exceção
+            raise Exception("Referencia inválida")
 
         novo.alteraProx(atual.pegaProx())
         atual.alteraProx(novo)
