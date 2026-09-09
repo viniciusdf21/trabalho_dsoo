@@ -75,24 +75,24 @@ class Lista:
 
 
     def inserirNaPosicao(self, posicao, novo): #insere um elemento em uma posição específica da lista
-        if posicao == 0:
+        if posicao == 0: #se a posição for 0, o novo elemento será inserido como primeiro
             self.inserirComoPrimeiro(novo)
             return
 
         atual = self.__inicio
         contador = 0
 
-        while contador < posicao - 1 and atual != None:
+        while contador < posicao - 1 and atual != None: #percorre a lista até chegar na posição desejada ou no final da lista
             atual = atual.pegaProx()
             contador += 1
 
-        if atual == None:
+        if atual == None: #se a posição for inválida (maior que o tamanho da lista), lança uma exceção
             raise Exception("Posição inválida")
 
         novo.alteraProx(atual.pegaProx())
         atual.alteraProx(novo)
 
-        if novo.pegaProx() == None:
+        if novo.pegaProx() == None: #se o novo elemento for inserido na última posição, atualiza o último elemento da lista
             self.__fim = novo
 
 
@@ -102,27 +102,27 @@ class Lista:
 
 
     def acessaDaPosicao(self, posicao): #retorna o elemento de uma posição específica da lista
-        if posicao == 0:
+        if posicao == 0: #se a posição for 0, retorna o primeiro elemento da lista
             return self.__inicio
 
         atual = self.__inicio
         contador = 0
 
-        while contador < posicao - 1 and atual != None:
+        while contador < posicao - 1 and atual != None: #percorre a lista até chegar na posição desejada ou no final da lista
             atual = atual.pegaProx()
             contador += 1
 
-        if atual == None:
+        if atual == None: #se a posição for inválida (maior que o tamanho da lista), lança uma exceção
             raise Exception("Posição inválida")
 
-        return atual.pegaProx()
+        return atual.pegaProx() #retorna o elemento da posição desejada (o próximo do elemento atual)
 
 
     def busca(self, referencia): #verifica se um elemento está presente na lista, se tiver retorna True, se não estiver retorna False
         atual = self.__inicio
 
-        while atual != None:
-            if atual == referencia:
+        while atual != None: #percorre a lista até encontrar o elemento ou chegar ao final da lista
+            if atual == referencia: #se o elemento atual for igual à referência, retorna True
                 return True
             atual = atual.pegaProx()
         return False
