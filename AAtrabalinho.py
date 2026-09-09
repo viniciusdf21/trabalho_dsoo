@@ -3,8 +3,8 @@
 
 
 class Elemento:
-    def __init__ (self, dado):
-        self.__valor = dado
+    def __init__ (self, valor):
+        self.__valor = valor
         self.__prox = None
 
     def pegaValor(self):
