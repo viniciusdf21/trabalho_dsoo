@@ -29,26 +29,26 @@ class Lista:
         novo.alteraProx(self.__inicio)
         self.__inicio = novo
 
-        if self.__fim is None:
+        if self.__fim == None: #se a lista estava vazia, o novo elemento também é o último
             self.__fim = novo
 
 
 
     def inserirComoUltimo(self, novo): #insere um elemento no final da lista
-        if self.__inicio == None:
+        if self.__inicio == None: #se a lista estiver vazia, o novo elemento será o primeiro e o último
             self.__inicio = novo
             self.__fim = novo
         else:
-            self.__fim.alteraProx(novo)
+            self.__fim.alteraProx(novo) #altera o próximo do último elemento para o novo elemento
             self.__fim = novo
 
 
 
     def removerPrimeiro(self): #remove o primeiro elemento da lista
-        if self.__inicio != None:
+        if self.__inicio != None: #se a lista não estiver vazia, altera o início da lista para o próximo elemento
             self.__inicio = self.__inicio.pegaProx()
 
-        if self.__inicio == None:
+        if self.__inicio == None: #se a lista ficar vazia após a remoção, o último elemento também deve ser None
             self.__fim = None
 
 
