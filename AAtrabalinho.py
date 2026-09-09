@@ -53,17 +53,6 @@ class Lista:
 
 
 
-    def remover(self, referencia):
-        atual = self.__inicio
-
-        while atual != referencia:
-            atual = atual.pegaProx()
-
-        if self.__inicio == None:
-            raise Exception("Lista vazia")
-
-
-
     def inserirAntesDe(self, posicao, novo): #insere um elemento antes de outro elemento da lista
         atual = self.__inicio
 
